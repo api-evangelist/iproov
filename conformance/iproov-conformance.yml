@@ -1,0 +1,35 @@
+generated: '2026-10-18'
+method: searched
+generator: extract-docs-artifacts.py (deepseek)
+source: https://portal.iproov.com/privacy
+sources:
+- https://portal.iproov.com/privacy
+standards:
+- id: iso-27001
+  conforms: true
+  evidence: 'iProov is certified to a number of information security standards, and is audited regularly by a reputable external third party for
+    its conformance to the following standards: ISO 27001, SOC-2, eIDAS and eID.'
+- id: soc2
+  conforms: true
+  evidence: 'iProov is certified to a number of information security standards, and is audited regularly by a reputable external third party for
+    its conformance to the following standards: ISO 27001, SOC-2, eIDAS and eID.'
+- id: oauth2
+  conforms: true
+  evidence: OpenAPI spec declares oauth2 security scheme with client_credentials flow for Management and User APIs
+  source: openapi/iproov-openapi.yml
+- id: openapi
+  conforms: true
+  evidence: API documented with OpenAPI 3.0.0 specification
+  source: openapi/iproov-openapi.yml
+- id: openapi-3.0
+  conforms: true
+  evidence: the document declares 3.0.0
+- id: rfc9457
+  conforms: false
+  evidence: no response declares application/problem+json
+- id: idempotency
+  conforms: false
+  evidence: no idempotency key parameter on mutating operations
+note: The page explicitly claims conformance to ISO 27001 and SOC-2. Note that eIDAS and eID are mentioned but are not in the predefined standards
+  list.
+docs: https://portal.iproov.com/privacy

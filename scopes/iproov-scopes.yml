@@ -1,0 +1,23 @@
+generated: '2026-10-18'
+method: derived
+source: openapi/iproov-openapi.yml
+schemes:
+- name: oauth2
+  source: openapi/iproov-openapi.yml
+  flows:
+  - flow: clientCredentials
+    tokenUrl: /{api_key}/access_token
+  description: OAuth2 is used for the Management and User APIs.
+scopes:
+- scope: user-read
+  description: Read the information of users
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/iproov-openapi.yml
+- scope: user-write
+  description: Update the user object
+  flows:
+  - clientCredentials
+  sources:
+  - openapi/iproov-openapi.yml

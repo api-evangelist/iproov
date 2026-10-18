@@ -1,0 +1,68 @@
+overlay: 1.0.0
+info:
+  title: iProov REST API — API Evangelist enhancements
+  version: 1.0.0
+x-generated: '2026-10-18'
+x-method: generated
+extends: ../openapi/_original/iproov-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-api-evangelist-aid: iproov:iproov-rest-api
+    x-regional-base-urls-note: Base URL is per region and shown in the Service Location of your iPortal service provider (e.g. https://eu.rp.secure.iproov.me/api/v2).
+- target: $.servers
+  update:
+  - url: https://eu.rp.secure.iproov.me/api/v2
+    description: EU region (host the contract was fetched from)
+- target: $.paths['/availability'].get
+  update:
+    x-agent-readonly: true
+    x-mcp-tool: check_platform_availability
+- target: $.paths['/claim/enrol/token'].post
+  update:
+    x-mcp-tool: generate_enrol_token
+    x-flow: enrol
+    x-flow-step: 1
+- target: $.paths['/claim/enrol/validate'].post
+  update:
+    x-mcp-tool: validate_enrolment
+    x-flow: enrol
+    x-flow-step: 3
+    x-flow-note: Step 2 is the client SDK capture using the token from step 1.
+- target: $.paths['/claim/enrol/image'].post
+  update:
+    x-mcp-tool: enrol_with_trusted_photo
+    x-flow: enrol-trusted-photo
+- target: $.paths['/claim/verify/token'].post
+  update:
+    x-mcp-tool: generate_verify_token
+    x-flow: verify
+    x-flow-step: 1
+- target: $.paths['/claim/verify/validate'].post
+  update:
+    x-mcp-tool: validate_verification
+    x-flow: verify
+    x-flow-step: 3
+    x-flow-note: Step 2 is the client SDK capture using the token from step 1.
+- target: $.paths['/claim/verify/image'].post
+  update:
+    x-mcp-tool: verify_with_trusted_photo
+    x-flow: verify-trusted-photo
+- target: $.paths['/claim/{token}/invalidate'].post
+  update:
+    x-mcp-tool: invalidate_token
+    x-agent-destructive: true
+- target: $.paths['/{api_key}/access_token'].post
+  update:
+    x-mcp-tool: get_access_token
+- target: $.paths['/users/{existing_user_id}'].get
+  update:
+    x-mcp-tool: get_user
+    x-agent-readonly: true
+- target: $.paths['/users/{existing_user_id}'].put
+  update:
+    x-mcp-tool: update_user
+- target: $.paths['/users/{existing_user_id}'].delete
+  update:
+    x-mcp-tool: delete_user
+    x-agent-destructive: true

@@ -1,0 +1,1269 @@
+# x-archived-from: iproov-openapi.yml
+# x-archived-on: 2026-10-18
+openapi: 3.0.0
+info:
+  title: iProov REST API
+  description: "This is the iProov API documentation guidelines, for simple integration of the iProov system. Note: The base_url that needs to be used is the one in the Service Location.\n\n# Introduction\n\nTo use the iProov service, you will need a valid account on [portal.iproov.com](https://portal.iproov.com), where you will be able to set up your Service Provider API credentials.\n\n# Verifier\n\nTo use Verifier, you need to generate a token with the `/claim/TYPE/token` endpoint, where TYPE is `verify` or `enrol`.\nOnce the claim has finished, you should then make a server to server validation call to the `/claim/TYPE/validate` endpoint to ensure there has been no tampering with the result from the client.\n\n# Service Provider API Key and Secret Authentication\n\nGeneral operations are secured by the `api_key` and `secret` parameters in the request body. See the individual operation sample request bodies for example usage. The additional schemes below are used for Management and User APIs.\n\n# Authentication\n\n<h2>oauth2</h2>\n<p>OAuth2 is used for the Management and User APIs.</p>\n<table style='width:100%; border-collapse:collapse;'>\n\t<tr style='background-color:#f5f5f5;'>\n\t\t<th style='text-align:left; padding:8px; border:1px solid #e0e0e0;'>Security Scheme Type</th>\n\t\t<th style='text-align:left; padding:8px; border:1px solid #e0e0e0;'>OAuth2</th>\n\t</tr>\n\t<tr>\n\t\t<td style='vertical-align:top; padding:8px; border:1px solid #e0e0e0;'>clientCredentials OAuth Flow</td>\n\t\t<td style='padding:8px; border:1px solid #e0e0e0;'>\n\t\t\t<strong>Token URL:</strong> <code>/{api_key}/access_token</code><br/>\n\t\t\t<strong>Scopes:</strong>\n\t\t\t<ul>\n\t\t\t\t<li><code>user-write</code> - Update the user object</li>\n\t\t\t\t<li><code>user-read</code> - Read the information of users</li>\n\t\t\t</ul>\n\t\t</td>\n\t</tr>\n</table>\n\n<h2>basicAuth</h2>\n<p>These can now be obtained via the iPortal - OAuth Username and OAuth password.</p>\n<table style='width:100%; border-collapse:collapse;'>\n\t<tr style='background-color:#f5f5f5;'>\n\t\t<th style='text-align:left; padding:8px; border:1px solid #e0e0e0;'>Security Scheme Type</th>\n\t\t<th style='text-align:left; padding:8px; border:1px solid #e0e0e0;'>HTTP</th>\n\t</tr>\n\t<tr>\n\t\t<td style='padding:8px; border:1px solid #e0e0e0;'>HTTP Authorization Scheme</td>\n\t\t<td style='padding:8px; border:1px solid #e0e0e0;'>basic</td>\n\t</tr>\n</table>\n"
+  contact:
+    name: iProov API Team
+  version: 2.20.1
+  x-logo:
+    url: logo.svg
+    altText: iProov Logo
+servers:
+- url: https://<base_url>/api/v2
+  description: API Server
+paths:
+  /availability:
+    get:
+      tags:
+      - Management
+      summary: Check the platform is available
+      description: Check the requested platform is available.
+      operationId: platformAvailable
+      parameters:
+      - name: api_key
+        in: query
+        description: The API key of the service provider
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailabilityResponse'
+        '400':
+          description: Bad Request or Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+  /claim/{token}/invalidate:
+    post:
+      tags:
+      - Management
+      summary: Invalidates a token
+      description: Invalidates a token
+      operationId: invalidateToken
+      parameters:
+      - name: token
+        in: path
+        description: The token to invalidate
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvalidateClaimRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidateClaimResponse'
+        '400':
+          description: Bad Request or Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidCredentialErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidCredentialErrorResponse'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /claim/verify/token:
+    post:
+      tags:
+      - Verify
+      summary: Generate a verification token for an existing user to verify with a service provider.
+      description: 'Generate a verification token for an existing user to verify with a service provider.
+
+
+        If the given `assurance_type` is invalid or not allowed then the response will be a 403. For example:
+
+
+        - GPA when only LA allowed with that SP key, will be rejected.
+
+        - LA when only GPA allowed, will be rejected.
+
+        - Unspecified (Default: GPA) and only LA allowed, will be rejected.
+
+
+        Note:
+
+
+        - The returned `token` is valid for 2 mins.'
+      operationId: userVerifyServerToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServerClaimRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimResponse'
+        '400':
+          description: Bad Request or Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidCredentialErrorResponse'
+        '403':
+          description: Invalid Assurance Type, Service Provider Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidAssuranceTypeResponse'
+        '429':
+          description: Rate Limit Exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitExceededResponse'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /claim/verify/validate:
+    post:
+      tags:
+      - Verify
+      summary: Validate the verification was successful
+      description: 'Validate the verification was successful.
+
+
+        This endpoint can only be called ONCE after a full end to end transaction has been completed. Subsequent calls will return a 400. This end-point will also return 400 if it is called before video streaming finishes.
+
+
+        Note that we strongly recommend you call this endpoint to avoid any man in the middle attacks between the user trying to authenticate and the iProov service (including by the user attempting to log in!).'
+      operationId: userVerifyValidate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClaimValidateRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimValidateResponse'
+        '400':
+          description: Bad Request or Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+  /{api_key}/access_token:
+    post:
+      tags:
+      - Management
+      summary: Allows a registered application to obtain an OAuth 2 Bearer Token
+      description: 'Allows a registered application to obtain an OAuth 2 Bearer Token, which can be used to make API requests on an application''s own behalf, without a user context. Currently only `client_credentials` grant is supported.
+
+
+        Note:
+
+
+        - The OAuth username and password are to be provided via the Authorization header in Basic format. These are distinct to the service provider API key and secret and supplied separately.
+
+        - The `access_token` returned expires after 1 hr, or after 50 requests, whichever is earlier.
+
+        - The `access_token` needs to be refreshed after it expires.'
+      operationId: generateToken
+      parameters:
+      - name: api_key
+        in: path
+        description: The API key of the service provider
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              required:
+              - grant_type
+              properties:
+                grant_type:
+                  description: The type of grant being requested by the application
+                  type: string
+                scope:
+                  description: Optionally define the scopes being required (omitting grants all allowed scopes)
+                  type: array
+                  items:
+                    type: string
+              type: object
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthTokenResponse'
+        '400':
+          description: Bad Request or Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthServerErrorResponse'
+      security:
+      - basicAuth: []
+  /claim/enrol/token:
+    post:
+      tags:
+      - Enrol
+      summary: Generate an enrolment token for a new user to enrol with a service provider
+      description: 'Generate an enrolment token for a new user to enrol with a service provider.
+
+
+        If the given `assurance_type` is invalid or not allowed then the response will be a 403. For example:
+
+
+        - GPA when only LA allowed with that SP key, will be rejected.
+
+        - LA when only GPA allowed, will be rejected.
+
+        - Unspecified (Default: GPA) and only LA allowed, will be rejected.
+
+
+        Note:
+
+
+        - The returned `token` is valid for 2 mins.
+
+        - For **Capture Enrol**, this token should be used to launch the SDK.
+
+        - For **Photo Enrol**, this token should be used for the Enrol Image API below.'
+      operationId: userEnrolServerToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServerClaimRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimResponse'
+        '400':
+          description: Bad Request or Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidCredentialErrorResponse'
+        '403':
+          description: Invalid Assurance Type, Service Provider Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidAssuranceTypeResponse'
+        '429':
+          description: Rate Limit Exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitExceededResponse'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+      x-redoc-order: 1
+  /claim/enrol/image:
+    post:
+      tags:
+      - Enrol
+      summary: Enrol a user through a trusted photo
+      description: "Enrols a user through a photo that is trusted by the service provider to be a likeness of the user. To call this endpoint you need to perform a previous API call:\n\n - Firstly get a token that is associated with a user ID.\n - Secondly upload the image with this endpoint. File attachment size limit is 2 MB.\n\nAccepted media types are PNG, JPEG and JP2 images.\n\nNote that due to the security implications of allowing users to enrol with just images this endpoint is restricted on a per service provider basis.\n\nPlease speak to Customer Support or email support@iproov.com to enable this. Please note, this request may take up to 2 weeks to action."
+      operationId: userEnrolImage
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - api_key
+              - secret
+              - rotation
+              - image
+              - token
+              properties:
+                api_key:
+                  description: The API key of the service provider
+                  type: string
+                secret:
+                  description: The API secret for the service provider
+                  type: string
+                  format: password
+                rotation:
+                  description: The rotation of the image (currently only 0 is supported)
+                  type: integer
+                image:
+                  description: 'The image to enrol the user with.
+
+
+                    For reliable enrolment and verification, the photo should show a single, clearly visible face, centered and looking directly at the camera, with the full face inside the frame and some margin from the edges (not cropped). The face should occupy at least 20–50% of the image width, with an inter-eye distance of at least 70px, and the image should be sharp and in focus. Use a standard format (JP2/JPEG/PNG) at a reasonable resolution'
+                  type: string
+                  format: binary
+                token:
+                  description: The enrolment token for the user
+                  type: string
+                source:
+                  description: "The source of the image (i.e. Electronic ID (`eid`), Optical ID (`oid`) or Selfie (`selfie`))\n - `eid`: If chip based document \n - `oid`: If ocr based document \n - `selfie`: If selfie"
+                  type: string
+                  default: eid
+                  enum:
+                  - eid
+                  - oid
+                  - selfie
+              type: object
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnrolResponse'
+        '400':
+          description: Bad Request or Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidCredentialErrorResponse'
+        '429':
+          description: Rate Limit Exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitExceededResponse'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+      x-redoc-order: 2
+  /claim/verify/image:
+    post:
+      tags:
+      - Verify
+      summary: Verify a user through a trusted photo
+      description: "Verify a user through a photo that is trusted by the service provider to be a likeness of the user. Accepted media types are PNG, JPEG and JP2 images. File attachment size limit is 2 MB. Note that due to the security implications of allowing users to verify using just images this endpoint is restricted on a per service provider basis.\n \nPlease speak to Customer Support or email support@iproov.com to enable this. Please note, this request may take up to 2 weeks to action."
+      operationId: userVerifyImage
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              required:
+              - api_key
+              - secret
+              - user_id
+              - resource
+              - image
+              properties:
+                api_key:
+                  description: The API key of the service provider
+                  type: string
+                secret:
+                  description: The API secret for the service provider
+                  type: string
+                  format: password
+                user_id:
+                  description: The username to be verified against
+                  type: string
+                resource:
+                  description: The resource being accessed (e.g. URL)
+                  type: string
+                image:
+                  description: 'The image to verify the user with.
+
+
+                    For reliable enrolment and verification, the photo should show a single, clearly visible face, centered and looking directly at the camera, with the full face inside the frame and some margin from the edges (not cropped). The face should occupy at least 20–50% of the image width, with an inter-eye distance of at least 70px, and the image should be sharp and in focus. Use a standard format (JP2/JPEG/PNG) at a reasonable resolution'
+                  type: string
+                  format: binary
+                source:
+                  description: "The source of the image (i.e. Electronic ID (`eid`), Optical ID (`oid`) or Selfie (`selfie`))\n - `eid`: If chip based document \n - `oid`: If ocr based document \n - `selfie`: If selfie"
+                  type: string
+                  default: eid
+                  enum:
+                  - eid
+                  - oid
+                  - selfie
+              type: object
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyResponse'
+        '400':
+          description: Bad Request or Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidCredentialErrorResponse'
+        '429':
+          description: Rate Limit Exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitExceededResponse'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+      x-redoc-order: 2
+  /claim/enrol/validate:
+    post:
+      tags:
+      - Enrol
+      summary: Validate the enrolment was successful and activate the user
+      description: 'Validate the enrolment was successful and activate the user.
+
+
+        This endpoint can only be called ONCE after a full end to end transaction has been completed. Subsequent calls will return a 400. This end-point will also return 400 if it is called before video streaming finishes.
+
+
+        Note that without this endpoint being called the user will not be activated and therefore will be unable to use iProov unless they were enrolled using the photo enrol API.'
+      operationId: userEnrolValidate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnrolValidateRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClaimValidateResponse'
+        '400':
+          description: Bad Request or Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        '401':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidCredentialErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+      x-redoc-order: 3
+  /users/{existing_user_id}:
+    get:
+      tags:
+      - User
+      summary: Get a user's persona for a service provider
+      description: Get a user's persona for a service provider
+      operationId: userGet
+      parameters:
+      - name: existing_user_id
+        in: path
+        description: The asserted identifier of the user
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidCredentialErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidCredentialErrorResponse'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - oauth2:
+        - user-read
+      x-redoc-order: 4
+    put:
+      tags:
+      - User
+      summary: Update a user's identifier for a service provider
+      description: Update a user's identifier for a service provider. Note one (or both) of name and new user id is required.
+      operationId: userUpdate
+      parameters:
+      - name: existing_user_id
+        in: path
+        description: The asserted identifier of the user
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Bad Request or Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidCredentialErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidCredentialErrorResponse'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+      - oauth2:
+        - user-write
+      x-redoc-order: 3
+    delete:
+      tags:
+      - User
+      summary: Deletes a user's persona from a service provider
+      description: Deletes a user's persona from a service provider
+      operationId: userDelete
+      parameters:
+      - name: existing_user_id
+        in: path
+        description: The asserted identifier of the user
+        required: true
+        schema:
+          type: string
+          format: uuid
+          example: c9d437ac-5a8d-4d05-9cf3-d61c6ae3aa57
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          description: Bad Request or Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidCredentialErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidCredentialErrorResponse'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+      security:
+      - oauth2:
+        - user-write
+      x-redoc-order: 5
+components:
+  schemas:
+    AvailabilityResponse:
+      required:
+      - up
+      properties:
+        up:
+          description: Whether iProov service is available or not.
+          type: boolean
+          example: true
+      type: object
+    EnrolResponse:
+      required:
+      - success
+      - token
+      - user_id
+      properties:
+        token:
+          description: The token should be referenced if there are issues with an individuals claim and is used as a transaction id
+          type: string
+          example: 31706131726336496d655177346e55503279616b69547344446e5258684c7542
+        user_id:
+          description: The asserted identifier of the user
+          type: string
+          format: uuid
+          example: c9d437ac-5a8d-4d05-9cf3-d61c6ae3aa57
+        success:
+          description: Successful transaction result
+          type: boolean
+          example: true
+      type: object
+    ServerClaimRequest:
+      required:
+      - api_key
+      - secret
+      - resource
+      - user_id
+      properties:
+        api_key:
+          description: The API key of the service provider
+          type: string
+        secret:
+          description: The API secret for the service provider
+          type: string
+          format: password
+        resource:
+          description: The resource being accessed (e.g. URL)
+          type: string
+        assurance_type:
+          description: The assurance type of the claim
+          type: string
+          default: genuine_presence
+          enum:
+          - genuine_presence
+          - liveness
+        user_id:
+          description: The asserted identifier of the user.
+          type: string
+          format: uuid
+          example: c9d437ac-5a8d-4d05-9cf3-d61c6ae3aa57
+      type: object
+    ClaimResponse:
+      required:
+      - fallback
+      - token
+      - primary
+      - user_id
+      - pod
+      properties:
+        fallback:
+          description: The fallback gives relevant fallback information. It contains a 'type' key and a 'message' key that provides more information about the fallback to be optionally displayed to the user
+          type: array
+          items:
+            $ref: '#/components/schemas/FallbackDefinition'
+        token:
+          description: The token should be referenced if there are issues with an individuals claim and is used as a transaction id. Must be claimed within 2 mins, otherwise it expires.
+          type: string
+          example: 31706131726336496d655177346e55503279616b69547344446e5258684c7542
+        primary:
+          type: string
+        user_id:
+          description: The user id of the user associated with the token. Null if no user is associated with the token.
+          type: string
+          format: uuid
+          example: c9d437ac-5a8d-4d05-9cf3-d61c6ae3aa57
+        pod:
+          description: The pod that will be used for the claim.
+          type: string
+          example: edge02.eu4
+        redirect_domain:
+          description: If the service provider has a dedicated landing page hosted at iProov this will contain the URL to redirect to.
+          type: string
+          example: This field is deprecated!
+          deprecated: true
+      type: object
+    FallbackDefinition:
+      required:
+      - type
+      - message
+      properties:
+        type:
+          description: The type of the fallback to be used
+          type: string
+          example: Info
+        message:
+          description: The message to show the user about the fallback
+          type: string
+          example: Sorry, only iProov is available
+      type: object
+    InvalidAssuranceTypeResponse:
+      description: ''
+      required:
+      - error
+      - error_description
+      properties:
+        error:
+          description: "\n - `assurance_type`: The given, or implied `assurance_type` is not allowed. With the given SP key if the given `assurance_type` is:\n    - GPA when only LA allowed.\n    - LA when only GPA allowed.\n    - Unspecified (Default: GPA) and only LA allowed.\n - `disabled_service_provider`: The service provider is disabled. Please contact customer success to enable your service provider credentials."
+          type: string
+          enum:
+          - invalid_assurance_type
+          - disabled_service_provider
+          example:
+          - invalid_assurance_type
+          - disabled_service_provider
+        error_description:
+          type: string
+          example:
+          - This assurance_type is not enabled for your service provider
+          - The service provider is disabled
+      type: object
+    ClaimValidateResponse:
+      required:
+      - passed
+      - token
+      - type
+      properties:
+        passed:
+          type: boolean
+          example: true
+        token:
+          type: string
+          example: 31706131726336496d655177346e55503279616b69547344446e5258684c7542
+        type:
+          type: string
+          example: verify
+        frame_available:
+          description: Present and True if there is frame available for returning to the integrator.
+          type: string
+          example: false
+        frame:
+          description: If `frame_available` is present and True, a base64 encoded PNG format representation of the frame. Is enabled on a per service provider basis in iPortal.
+          type: string
+          format: PNG
+        frame_jpeg:
+          description: If `frame_available` is present and True, a base64 encoded representation of the frame in JPEG format. Is enabled on a per service provider basis. Contact support@iproov.com to enable this.
+          type: string
+          format: JPG
+        reason:
+          description: The failure reason (enabled on a per service provider basis)
+          type: string
+          example: Please Keep Still
+        assurance_type:
+          description: Which assurance type was utilized by the transaction
+          type: string
+          default: genuine_presence
+          enum:
+          - genuine_presence
+          - liveness
+        signals:
+          description: An additional summary about the claim. Please speak to Customer Support or email support@iproov.com to enable this. Please note, this request may take up to 2 weeks to action.
+          properties:
+            anti_spoofing:
+              description: Whether the claim passed antispoofing biometric tests. `null` value means biometric test results aren't available, most likely due to an error.
+              properties:
+                passed:
+                  type: boolean
+                  nullable: true
+              type: object
+            matching:
+              description: Whether the claim passed face matching. Only relevant when video verifying. `null` value means the face matching result isn't available, most likely due to an error.
+              properties:
+                passed:
+                  type: boolean
+                  nullable: true
+              type: object
+            multiple_faces:
+              description: A summary of multiple/single face detection results.
+              properties:
+                single_face:
+                  properties:
+                    found:
+                      description: Whether exactly 1 face was found in the validate frame. `null` value means the signle face detection algorithm result isn't available, most likely due to an error.
+                      type: boolean
+                      nullable: true
+                  type: object
+                face_consistent:
+                  properties:
+                    passed:
+                      description: Whether the same face was detected in the video stream. This signal is relevant with LA transactions only at this time. `null` value means the consistent face detection algorithm result isn't available, most likely due to an error.
+                      type: boolean
+                      nullable: true
+                  type: object
+              type: object
+            return_frame_quality:
+              description: An image quality assessment of the returned frame. Only available when `on_validate_return_frame` is enabled.
+              properties:
+                blur:
+                  description: The quality of blur.
+                  type: string
+                  default: not_available
+                  enum:
+                  - not_available
+                  - Good
+                  - Acceptable
+                  - Poor
+                pose:
+                  description: The quality of pose.
+                  type: string
+                  default: not_available
+                  enum:
+                  - not_available
+                  - Good
+                  - Acceptable
+                  - Poor
+                lighting:
+                  description: The quality of lighting.
+                  type: string
+                  default: not_available
+                  enum:
+                  - not_available
+                  - Good
+                  - Acceptable
+                  - Poor
+              type: object
+          type: object
+        user_feedback_codes:
+          description: List of user feedback codes, up-to 3 can be returned. These codes are designed to be immediately actionable for end users, helping them to improve their next attempt. These will map to the SDK feedback codes (please note, exact strings will differ according to the corresponding platform naming conventions).
+          type: array
+          items:
+            type: string
+            enum:
+            - ufc_background_issue
+            - ufc_device_issue
+            - ufc_device_restart
+            - ufc_eyewear
+            - ufc_eyes_closed
+            - ufc_face_not_found
+            - ufc_frames_blurry
+            - ufc_lighting_issues
+            - ufc_motion_issue
+            - ufc_multiple_faces
+            - ufc_obscured_face
+            - ufc_processing_fault
+            - ufc_rejected
+            - ufc_system_error
+            - ufc_timeout
+          example:
+          - ufc_lighting_issues
+          - ufc_eyewear
+          - ufc_obscured_face
+      type: object
+    EnrolValidateRequest:
+      required:
+      - api_key
+      - secret
+      - user_id
+      - token
+      - client
+      properties:
+        api_key:
+          description: The API key of the service provider
+          type: string
+        secret:
+          description: The API secret for the service provider
+          type: string
+          format: password
+        user_id:
+          description: The asserted identifier of the user
+          type: string
+          format: uuid
+        token:
+          description: The token for the claim
+          type: string
+        client:
+          description: Fingerprint or client identifier of the device making the request (e.g. User Agent)
+          type: string
+        activate:
+          description: 'Activate the user''s account (default: true).  User will be SUSPENDED if false.'
+          type: boolean
+      type: object
+    InvalidateClaimResponse:
+      required:
+      - claim_aborted
+      - user_informed
+      properties:
+        claim_aborted:
+          description: True if claim was invalidated.
+          type: boolean
+          example: true
+        user_informed:
+          description: True if the user was successfully informed that the claim has been invalidated.
+          type: boolean
+          example: true
+      type: object
+    InvalidateClaimRequest:
+      required:
+      - reason
+      properties:
+        reason:
+          description: The reason to be displayed to the user for the invalidation of the claim
+          type: string
+      type: object
+    VerifyResponse:
+      required:
+      - assurance_type
+      - passed
+      - token
+      - type
+      - source
+      - user_id
+      properties:
+        assurance_type:
+          type: string
+          enum:
+          - photo_verify
+          example: photo_verify
+        passed:
+          description: Successful transaction result
+          type: boolean
+          example: true
+        token:
+          description: The token should be referenced if there are issues with an individuals claim and is used as a transaction id
+          type: string
+          example: 31706131726336496d655177346e55503279616b69547344446e5258684c7542
+        user_id:
+          description: The asserted identifier of the user
+          type: string
+          example: c9d437ac-5a8d-4d05-9cf3-d61c6ae3aa57
+        type:
+          type: string
+          default: verify
+          example: verify
+        source:
+          type: string
+          enum:
+          - eid
+          - oid
+          - selfie
+          example: eid
+      type: object
+    ClaimValidateRequest:
+      required:
+      - api_key
+      - secret
+      - user_id
+      - token
+      - client
+      properties:
+        api_key:
+          description: The API key of the service provider
+          type: string
+        secret:
+          description: The API secret for the service provider
+          type: string
+          format: password
+        user_id:
+          description: The asserted identifier of the user
+          type: string
+          format: uuid
+          example: c9d437ac-5a8d-4d05-9cf3-d61c6ae3aa57
+        token:
+          description: The token for the claim
+          type: string
+          example: 31706131726336496d655177346e55503279616b69547344446e5258684c7542
+        client:
+          description: Fingerprint or client identifier of the device making the request (e.g. User Agent)
+          type: string
+      type: object
+    AuthTokenResponse:
+      description: A OAuth2 standard compliant response giving an OAuth access token. Usable for up to 50 requests
+      required:
+      - access_token
+      - token_type
+      - expires_in
+      properties:
+        access_token:
+          type: string
+          example: zAVFcpZ1Lxa5DeFnIbOotU4QjX7GEYuonoEj2WY2VygoJzCYhjEqiQqnNrVq
+        token_type:
+          type: string
+          example: Bearer
+        expires_in:
+          type: integer
+          example: 3600
+        scope:
+          type: array
+          items:
+            type: string
+          example:
+          - user-read
+      type: object
+    OAuthServerErrorResponse:
+      required:
+      - error
+      - error_description
+      properties:
+        error:
+          description: "\n - `invalid_key`: Missing or incorrect API Key. Check your API Key is correct:\n\n     1. Log into the iPortal.\n     2. Select your Service Provider.\n     3. Copy your API key.\n     4. Ensure your API Key and Secret are for the correct service provider.\n - `server_error`: Generic iProov error code. If you receive this error code frequently please contact your customer success team or support@iproov.com."
+          type: string
+          enum:
+          - invalid_key
+          - server_error
+          example: invalid_key
+        error_description:
+          type: string
+          example: Invalid API Key
+      type: object
+    UserResponse:
+      description: Contains a description of the user with User ID, Name, Status of the user, suspension and activated date.
+      required:
+      - user_id
+      - name
+      - status
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          example: c9d437ac-5a8d-4d05-9cf3-d61c6ae3aa57
+        name:
+          type: string
+          example: John Doe
+        status:
+          description: A status of either 'inactive', 'active', 'suspended' or 'Deleted'.
+          type: string
+          example: active
+        suspension_date:
+          type: string
+          format: date-time
+          example: '2016-04-16T16:06:05Z'
+        activation_date:
+          type: string
+          format: date-time
+          example: '2016-05-16T16:06:05Z'
+      type: object
+    UpdateUserRequest:
+      properties:
+        user_id:
+          description: The new identifier for the user
+          type: string
+        name:
+          description: The name to display to the user when authenticating
+          type: string
+      type: object
+    ErrorResponse:
+      description: The Error response contains an error constant which can be used to split up responses and can be converted to translatable error messages. The error description returns a more descriptive error response that is largely designed for developers to get detailed information for failures.
+      required:
+      - error
+      - error_description
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
+      type: object
+    ClientErrorResponse:
+      description: Missing data in the request, or the state of the requested entity object is such that the operation could not succeed.
+      required:
+      - error
+      - error_description
+      properties:
+        error:
+          description: "\n - `invalid_agent`: **DEPRECATED**.\n - `invalid_user_id`: Malformed, illegal characters in the user_id, missing, or non-existent user_id given.\n   - Regex: `[a-zA-Z0-9'\\+_@\\.-]{1,256}`.\n\n - `invalid_token`: An invalid token was provided in the body.\n   - Ensure the correct claim token is passed from the POST /claim/enrol/token or POST /claim/verify/token calls.\n   - Ensure the token is incorrectly reused. For an Enrol Capture call, once an image has been **registered** against a token, it cannot be called again.\n   - Attempted to validate a claim token that was previously validated.\n   - Attempted to validate a claim token before video imagery finished streaming.\n\n - `invalid_validation`: The username does not match the username associated with the claim token.\n   - Ensure the correct `user_id` is used.\n\n - `invalid_reason`: Malformed, illegal characters in `reason` parameter.\n   - Regex: `^[a-zA-Z0-9_.:=()'\\'\\\"/\\s]{1,800}$`.\n\n - `no_face_found`: No face found in enrolment image. Please try again with a photo with a face in it.\n - `invalid_grant`: Malformed, or missing `grant_type`. Correct the `grant_type` field.\n   - Regex: `^[a-zA-Z0-9_\\-.]{0,30}$`.\n\n - `invalid_request`: Malformed, or invalid IPv4 address given in `ip` field, or missing `grant_type` parameter.\n - `invalid_client`: Invalid, or missing basicAuth credentials for the given API key/Service Provider when requesting\n   OAuth `access_token`. Provide the correct credentials/API key - defined within your Service Provider. A key rotation\n   may have occurred.\n - `invalid_scope`: Malformed `scope` parameter in request.\n   - Regex: `^[a-zA-Z0-9_\\-.]{0,100}$`.\n\n - `unsupported_grant_type`: The request's `grant_type` parameter value is not `client_credentials`.\n - `missing_data`: Missing `resource`, `reason` or `token` parameter/value in request body.\n - `no_user`: The given `user_id` or username doesn't exist.\n - `inactive_user`: User is in the wrong state (should have an Active state). Ensure the user is not suspected (User management API).\n - `invalid_enrol_image`: Missing image attachment in multipart form data. Ensure the image is appended to the multipart form body correctly.\n - `invalid_source`: The `source` request parameter value must be one of `oid`, `eid` or `selfie`.\n - `already_enrolled`: The given username or `user_id` has already enrolled. Did you mean to conduct a verify transaction?\n   If a re-enrol is required, then either pass a new user_id or use the User Management API to delete the user and\n   request a new enrol claim token.\n - `invalid_key`: Missing or incorrect API Key. Check your API Key is correct:\n   1. Log into the iPortal.\n   2. Select your Service Provider.\n   3. Copy your API key.\n   4. Ensure your API Key and Secret are for the correct service provider\n"
+          type: string
+          enum:
+          - invalid_agent
+          - invalid_user_id
+          - invalid_token
+          - invalid_validation
+          - invalid_reason
+          - no_face_found
+          - invalid_grant
+          - invalid_request
+          - invalid_client
+          - invalid_scope
+          - unsupported_grant_type
+          - missing_data
+          - no_user
+          - inactive_user
+          - invalid_enrol_image
+          - invalid_source
+          - already_enrolled
+          - invalid_key
+        error_description:
+          type: string
+      type: object
+    InvalidCredentialErrorResponse:
+      description: 'One of: invalid OAuth token, expired OAuth token, invalid credentials, API Key and/or Secret is missing, malformed, or incorrect.'
+      required:
+      - error
+      - error_description
+      properties:
+        error:
+          description: "\n - `invalid_key`: Missing or incorrect API Key. Check your API Key is correct:\n   1. Log into the iPortal.\n   2. Select your Service Provider.\n   3. Copy your API key.\n   4. Ensure your API Key and Secret are for the correct service provider\n - `invalid_oauth`: Missing OAuth `access_token`.\n   - Call POST /{api_key}/access_token to obtain a new OAuth Access token. Access tokens expire after 1 hr or 50 requests.\n - `invalid_token`: Invalid OAuth `access_token`.\n   - Call POST /{api_key}/access_token to obtain a new OAuth Access token. Access tokens expire after 1 hr or 50 requests.\n - `token_quota_exceeded`: 50/50 Oauth user requests used.\n   - Call POST /{api_key}/access_token to obtain a new OAuth Access token. Access tokens expire after 1 hr or 50 requests."
+          type: string
+          enum:
+          - invalid_key
+          - invalid_oauth
+          - token_quota_exceeded
+        error_description:
+          type: string
+      type: object
+    RateLimitExceededResponse:
+      description: Server Error
+      required:
+      - error
+      - error_description
+      properties:
+        error:
+          type: string
+          enum:
+          - too_many_requests
+        error_description:
+          description: Sorry you have reached your rate limit for this resource; please try again later. If you receive this error code frequently please contact your customer success team or support@iproov.com.
+          type: string
+      type: object
+    ServerErrorResponse:
+      description: Server Error
+      required:
+      - error
+      - error_description
+      properties:
+        error:
+          description: Generic iProov error code. If you receive this error code frequently please contact your customer success team or support@iproov.com.
+          type: string
+          enum:
+          - server_error
+        error_description:
+          type: string
+      type: object
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: OAuth2 is used for the Management and User APIs.
+      flows:
+        clientCredentials:
+          tokenUrl: /{api_key}/access_token
+          scopes:
+            user-write: Update the user object
+            user-read: Read the information of users
+    basicAuth:
+      type: http
+      description: These can now be obtained via the iPortal - OAuth Username and OAuth password.
+      scheme: basic
+tags:
+- name: Enrol
+  description: Enrol a user with iProov.
+- name: Verify
+  description: Verify an enrolled user with iProov.
+- name: User
+  description: iProov user management APIs.
+- name: Management
+  description: Management

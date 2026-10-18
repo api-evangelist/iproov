@@ -1,0 +1,51 @@
+# iProov
+
+> iProov provides biometric face verification and liveness detection technology used by governments, banks, and enterprises to verify that an online user is the right person, a real person, and authenticating right now. Core products are the Biometric Solutions Suite (remote onboarding and authentication) and the Workforce Solutions Suite (workforce identity protection against deepfakes and AI-driven impersonation). Founded in 2011 by Andrew Bud. Headquartered in London, UK.
+
+Key differentiators: patented Flashmark technology for genuine presence verification, injection attack detection (beyond presentation attack detection), cloud-based Security Operations Center (iSOC) for real-time threat monitoring. First biometrics vendor certified to NIST SP 800-63-4 and CEN/TS 18099 Ingenium Level 4.
+
+## Start Here
+
+- [About iProov](https://www.iproov.com/about): Company overview, mission, and frequently asked questions about iProov
+- [Developer Documentation](https://docs.iproov.com/): SDK integration guides, API reference, and implementation resources for iOS, Android, Web, Flutter, React Native, and Xamarin
+- [Biometric Encyclopedia](https://www.iproov.com/biometric-encyclopedia): Definitions of biometric and identity verification terminology
+- [Liveness Detection](https://www.iproov.com/liveness-detection): Core technology overview covering Express Liveness and Dynamic Liveness (Flashmark)
+- [Certifications](https://www.iproov.com/certifications): NIST SP 800-63-4, CEN/TS 18099 Level 4, ISO 30107-3, FIDO Alliance, SOC 2 Type II, eIDAS, WCAG 2.2 AA, IRAP
+
+## Biometric Solutions
+
+- [Biometric Authentication](https://www.iproov.com/biometric-authentication-solution): Face authentication replacing passwords and OTPs
+- [Remote Onboarding](https://www.iproov.com/biometric-remote-onboarding-solution): Identity verification linking selfie to government-issued ID
+- [On-the-Move Biometrics](https://www.iproov.com/on-the-move-biometrics): Contactless biometric verification for physical access, gates, and kiosks
+- [Workforce Solutions Suite](https://www.iproov.com/workforce-solution-suite): Workforce identity protection across IAM, IGA, and PAM platforms
+- [Workforce MFA](https://www.iproov.com/workforce-mfa-solution): Device-independent biometric MFA via OIDC
+
+## Industries
+
+- [Financial Services](https://www.iproov.com/industries/financial-services)
+- [Government](https://www.iproov.com/industries/government-public-sector)
+- [Healthcare](https://www.iproov.com/industries/healthcare)
+- [Travel](https://www.iproov.com/industries/travel)
+- [Borders](https://www.iproov.com/industries/customs-and-borders)
+
+## Use Cases
+
+- [Digital Identity](https://www.iproov.com/use-cases/digital-identity)
+- [Biometric Authentication](https://www.iproov.com/use-cases/biometric-authentication)
+- [Multi-factor Authentication](https://www.iproov.com/use-cases/multi-factor-authentication)
+- [User Onboarding](https://www.iproov.com/use-cases/onboarding)
+- [Account Recovery](https://www.iproov.com/use-cases/account-recovery-device-binding)
+- [Visas, Borders, & Immigration](https://www.iproov.com/use-cases/visas-borders-immigration)
+
+## Resources
+
+- [Blog](https://www.iproov.com/blog): Biometric technology, deepfakes, identity fraud, and regulatory analysis
+- [Reports](https://www.iproov.com/reports): Threat intelligence and industry research
+- [Press](https://www.iproov.com/press): Company announcements and partnerships
+- [Partners](https://www.iproov.com/partners): Integration partners including Microsoft Entra ID, Okta, Ping Identity, and ForgeRock
+
+## Optional
+
+- [Leadership](https://www.iproov.com/leadership)
+- [Careers](https://www.iproov.com/careers)
+- [Contact](https://www.iproov.com/contact-us)

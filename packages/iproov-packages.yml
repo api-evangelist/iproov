@@ -1,0 +1,81 @@
+generated: '2026-10-18'
+method: searched
+source: https://docs.iproov.com/getting-started
+sources:
+- https://docs.iproov.com/getting-started
+- https://github.com/iProov
+- https://registry.npmjs.org/@iproov/react-native
+packages:
+- name: '@iproov/react-native'
+  registry: npm
+  url: https://www.npmjs.com/package/@iproov/react-native
+  language: JavaScript
+  official: true
+  version: '3.0.0'
+  published: '2025-11-18'
+  note: React Native SDK for biometric authentication
+- name: 'iProov iOS SDK'
+  registry: github
+  url: https://github.com/iProov/ios
+  language: Swift
+  official: true
+  version: '14.0.0'
+  published: '2026-10-15'
+  note: Native iOS SDK distributed via GitHub releases
+- name: 'iProov Android SDK'
+  registry: github
+  url: https://github.com/iProov/android
+  language: Kotlin/Java
+  official: true
+  version: '12.0.0'
+  published: '2026-10-16'
+  note: Native Android SDK distributed via GitHub releases
+- name: 'iProov Web SDK'
+  registry: github
+  url: https://github.com/iProov/web
+  language: JavaScript
+  official: true
+  version: '6.2.1'
+  published: '2026-08-06'
+  note: Web SDK distributed via CDN and GitHub releases
+- name: 'iProov Flutter SDK'
+  registry: github
+  url: https://github.com/iProov/flutter
+  language: Dart
+  official: true
+  version: '6.1.0'
+  published: '2025-12-03'
+  note: Flutter SDK distributed via GitHub releases
+- name: 'iProov .NET MAUI SDK'
+  registry: github
+  url: https://github.com/iProov/dotnet-maui
+  language: C#
+  official: true
+  version: '3.0.0'
+  published: '2025-11-20'
+  note: .NET MAUI SDK distributed via GitHub releases
+- name: 'iProov iOS API Client'
+  registry: github
+  url: https://github.com/iProov/ios-api-client
+  language: Swift
+  official: true
+  version: '2.1.0'
+  published: '2025-01-08'
+  note: Swift API client for iProov REST API
+- name: 'iProov Android API Client'
+  registry: github
+  url: https://github.com/iProov/android-api-client
+  language: Kotlin/Java
+  official: true
+  version: null
+  published: null
+  note: Android API client for iProov REST API (no version info available)
+- name: 'iProov Xamarin SDK'
+  registry: github
+  url: https://github.com/iProov/xamarin
+  language: C#
+  official: true
+  version: null
+  published: null
+  note: Legacy Xamarin SDK (superseded by .NET MAUI)
+note: Most iProov SDKs are distributed via GitHub releases rather than package registries. The React Native SDK is available on npm. Web SDK is distributed via CDN.

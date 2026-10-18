@@ -1,0 +1,12 @@
+generated: '2026-10-18'
+method: searched
+source: https://docs.iproov.com/getting-started/sdk-lifecycle
+versioning:
+  scheme: semantic
+  current: '2.20.1'
+  policy: Major releases (X) typically once per year in H2, may introduce breaking changes. Minor releases (Y) add features. Patch releases (Z) fix bugs.
+deprecation:
+  policy: SDKs have End of Support (EoS) and End of Life (EoL) events. After EoS, no new patches. After EoL (approx 12 months after EoS), transactions are rejected.
+  notice_period: Communications sent before EoS event
+status_page: null
+note: API uses semantic versioning. SDK lifecycle includes Beta, GA, Maintenance, End of Support, and End of Life stages. SDKs become inoperable after End of Life.

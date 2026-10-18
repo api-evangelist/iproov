@@ -1,0 +1,180 @@
+{
+  "@context": {
+    "@vocab": "https://iproov.com/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "iproov": "https://iproov.com/schema#",
+    "AvailabilityResponse": "iproov:AvailabilityResponse",
+    "up": {
+      "@id": "iproov:up",
+      "@type": "xsd:boolean"
+    },
+    "EnrolResponse": "iproov:EnrolResponse",
+    "token": {
+      "@id": "iproov:token",
+      "@type": "xsd:string"
+    },
+    "user_id": {
+      "@id": "iproov:user_id",
+      "@type": "xsd:string"
+    },
+    "success": {
+      "@id": "iproov:success",
+      "@type": "xsd:boolean"
+    },
+    "ServerClaimRequest": "iproov:ServerClaimRequest",
+    "api_key": {
+      "@id": "iproov:api_key",
+      "@type": "xsd:string"
+    },
+    "secret": {
+      "@id": "iproov:secret",
+      "@type": "xsd:string"
+    },
+    "resource": {
+      "@id": "iproov:resource",
+      "@type": "xsd:string"
+    },
+    "assurance_type": {
+      "@id": "iproov:assurance_type",
+      "@type": "xsd:string"
+    },
+    "ClaimResponse": "iproov:ClaimResponse",
+    "fallback": {
+      "@id": "iproov:fallback",
+      "@container": "@list"
+    },
+    "primary": {
+      "@id": "iproov:primary",
+      "@type": "xsd:string"
+    },
+    "pod": {
+      "@id": "iproov:pod",
+      "@type": "xsd:string"
+    },
+    "redirect_domain": {
+      "@id": "iproov:redirect_domain",
+      "@type": "xsd:string"
+    },
+    "FallbackDefinition": "iproov:FallbackDefinition",
+    "type": {
+      "@id": "iproov:type",
+      "@type": "xsd:string"
+    },
+    "message": {
+      "@id": "iproov:message",
+      "@type": "xsd:string"
+    },
+    "InvalidAssuranceTypeResponse": "iproov:InvalidAssuranceTypeResponse",
+    "error": {
+      "@id": "iproov:error",
+      "@type": "xsd:string"
+    },
+    "error_description": {
+      "@id": "iproov:error_description",
+      "@type": "xsd:string"
+    },
+    "ClaimValidateResponse": "iproov:ClaimValidateResponse",
+    "passed": {
+      "@id": "iproov:passed",
+      "@type": "xsd:boolean"
+    },
+    "frame_available": {
+      "@id": "iproov:frame_available",
+      "@type": "xsd:string"
+    },
+    "frame": {
+      "@id": "iproov:frame",
+      "@type": "xsd:string"
+    },
+    "frame_jpeg": {
+      "@id": "iproov:frame_jpeg",
+      "@type": "xsd:string"
+    },
+    "reason": {
+      "@id": "iproov:reason",
+      "@type": "xsd:string"
+    },
+    "signals": {
+      "@id": "iproov:signals"
+    },
+    "user_feedback_codes": {
+      "@id": "iproov:user_feedback_codes",
+      "@container": "@list"
+    },
+    "EnrolValidateRequest": "iproov:EnrolValidateRequest",
+    "client": {
+      "@id": "iproov:client",
+      "@type": "xsd:string"
+    },
+    "activate": {
+      "@id": "iproov:activate",
+      "@type": "xsd:boolean"
+    },
+    "InvalidateClaimResponse": "iproov:InvalidateClaimResponse",
+    "claim_aborted": {
+      "@id": "iproov:claim_aborted",
+      "@type": "xsd:boolean"
+    },
+    "user_informed": {
+      "@id": "iproov:user_informed",
+      "@type": "xsd:boolean"
+    },
+    "InvalidateClaimRequest": "iproov:InvalidateClaimRequest",
+    "VerifyResponse": "iproov:VerifyResponse",
+    "source": {
+      "@id": "iproov:source",
+      "@type": "xsd:string"
+    },
+    "ClaimValidateRequest": "iproov:ClaimValidateRequest",
+    "AuthTokenResponse": "iproov:AuthTokenResponse",
+    "access_token": {
+      "@id": "iproov:access_token",
+      "@type": "xsd:string"
+    },
+    "token_type": {
+      "@id": "iproov:token_type",
+      "@type": "xsd:string"
+    },
+    "expires_in": {
+      "@id": "iproov:expires_in",
+      "@type": "xsd:integer"
+    },
+    "scope": {
+      "@id": "iproov:scope",
+      "@container": "@list"
+    },
+    "OAuthServerErrorResponse": "iproov:OAuthServerErrorResponse",
+    "UserResponse": "iproov:UserResponse",
+    "name": {
+      "@id": "iproov:name",
+      "@type": "xsd:string"
+    },
+    "status": {
+      "@id": "iproov:status",
+      "@type": "xsd:string"
+    },
+    "suspension_date": {
+      "@id": "iproov:suspension_date",
+      "@type": "xsd:dateTime"
+    },
+    "activation_date": {
+      "@id": "iproov:activation_date",
+      "@type": "xsd:dateTime"
+    },
+    "UpdateUserRequest": "iproov:UpdateUserRequest",
+    "ErrorResponse": "iproov:ErrorResponse",
+    "ClientErrorResponse": "iproov:ClientErrorResponse",
+    "InvalidCredentialErrorResponse": "iproov:InvalidCredentialErrorResponse",
+    "RateLimitExceededResponse": "iproov:RateLimitExceededResponse",
+    "ServerErrorResponse": "iproov:ServerErrorResponse"
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "iProov API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects iProov's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-10-18) from openapi/iproov-openapi.yml.",
+  "dcterms:created": "2026-10-18",
+  "dcterms:source": [
+    "openapi/iproov-openapi.yml"
+  ]
+}

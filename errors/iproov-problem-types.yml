@@ -1,0 +1,34 @@
+generated: '2026-10-18'
+method: derived
+source: openapi/iproov-openapi.yml
+format: application/json
+envelope:
+  error: error
+  error_description: error_description
+problems:
+- status: 400
+  title: Client Error
+  type: ClientErrorResponse
+  description: Missing data in the request, or the state of the requested entity object is such that the operation could not succeed.
+  remediation: Check request parameters and entity state
+- status: 401
+  title: Invalid Credentials
+  type: InvalidCredentialErrorResponse
+  description: Invalid OAuth token, expired OAuth token, invalid credentials, API Key and/or Secret is missing, malformed, or incorrect.
+  remediation: Check authentication credentials and tokens
+- status: 403
+  title: Access Denied
+  type: InvalidCredentialErrorResponse
+  description: Access denied due to insufficient permissions or invalid credentials.
+  remediation: Verify permissions and credentials
+- status: 429
+  title: Rate Limit Exceeded
+  type: RateLimitExceededResponse
+  description: Rate limit exceeded for the resource
+  remediation: Try again later or contact support
+- status: 500
+  title: Server Error
+  type: ServerErrorResponse
+  description: Generic server error
+  remediation: Contact customer success team or support@iproov.com
+note: Error responses follow a consistent format with 'error' and 'error_description' fields. Specific error codes are defined in the OpenAPI specification.

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/iproov/main/json-schema/iproov-verify-response-schema.json",
+  "title": "VerifyResponse",
+  "x-generated": "2026-10-18",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/iproov-openapi.yml#/components/schemas/VerifyResponse",
+  "required": [
+    "assurance_type",
+    "passed",
+    "token",
+    "type",
+    "source",
+    "user_id"
+  ],
+  "properties": {
+    "assurance_type": {
+      "type": "string",
+      "enum": [
+        "photo_verify"
+      ]
+    },
+    "passed": {
+      "description": "Successful transaction result",
+      "type": "boolean"
+    },
+    "token": {
+      "description": "The token should be referenced if there are issues with an individuals claim and is used as a transaction id",
+      "type": "string"
+    },
+    "user_id": {
+      "description": "The asserted identifier of the user",
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "default": "verify"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "eid",
+        "oid",
+        "selfie"
+      ]
+    }
+  },
+  "type": "object"
+}

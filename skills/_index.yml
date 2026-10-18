@@ -1,0 +1,19 @@
+generated: '2026-10-18'
+method: generated
+generator: extract-docs-artifacts.py skills (deepseek)
+source: openapi/iproov-openapi.yml
+skills:
+- file: skills/iproov-verify-user.md
+  name: iproov-verify-user
+  api: openapi/iproov-openapi.yml
+  operations:
+  - userVerifyServerToken
+  - userVerifyImage
+  - userVerifyValidate
+- file: skills/iproov-enrol-user.md
+  name: iproov-enrol-user
+  api: openapi/iproov-openapi.yml
+  operations:
+  - userEnrolServerToken
+  - userEnrolImage
+  - userEnrolValidate

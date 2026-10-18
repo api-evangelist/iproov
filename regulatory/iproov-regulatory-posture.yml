@@ -1,0 +1,103 @@
+generated: '2026-10-18'
+method: searched
+source: https://www.iproov.com/privacy-policy
+scope_note: >-
+  The Privacy Policy (Last Updated 19 June 2026) states that it "excludes personal data contributed during the
+  use of iProov's biometric authentication services"; biometric data is covered instead by the separate
+  Biometric Data Retention Schedule. The Terms and Conditions page (200) carried no candidate language for any signal.
+signals:
+  data_subject_request:
+    url: https://www.iproov.com/privacy-policy
+    section: Your legal rights
+    channel: DPO@iproov.com
+    stated_sla: We attempt to respond to all legitimate requests within one month.
+    rights_named: [access, correction, erasure, objection, restriction, portability, withdrawal of consent]
+    escalation: UK Information Commissioner's Office (ICO registration ZA859100), after the internal complaints process at compliance@iproov.com
+    evidence:
+    - source: https://www.iproov.com/privacy-policy
+      http_status: 200
+      fetched: '2026-10-18'
+      quote: >-
+        Under the EU GDPR and the UK Data Protection Act 2018, in relation to the personal data which we may hold
+        about you, you have the right to: Request access to your personal information (commonly known as a data
+        subject access request).
+    - source: https://www.iproov.com/privacy-policy
+      http_status: 200
+      fetched: '2026-10-18'
+      quote: >-
+        We will provide to you, or a third party you have chosen, your personal information in a structured,
+        commonly used, machine-readable format.
+    - source: https://www.iproov.com/privacy-policy
+      http_status: 200
+      fetched: '2026-10-18'
+      quote: We attempt to respond to all legitimate requests within one month.
+    - source: https://www.iproov.com/privacy-policy
+      http_status: 200
+      fetched: '2026-10-18'
+      quote: >-
+        For inquiries about this Privacy Policy, including any requests to exercise your legal rights, please
+        contact our Data Protection Officer at DPO@iproov.com.
+    - source: https://www.iproov.com/privacy-policy
+      http_status: 200
+      fetched: '2026-10-18'
+      quote: >-
+        We will acknowledge receipt of your complaint within 30 days , investigate the matters raised, and keep you
+        informed of the progress and outcome of our review without undue delay.
+    note: >-
+      GDPR / UK DPA 2018 rights including portability in machine-readable form, a named DPO channel, a stated
+      one-month response target, and a separate complaints route (compliance@iproov.com, 30-day acknowledgement)
+      that, per the policy, must be used before escalating to the ICO under the Data Use and Access Act.
+  data_retention:
+    url: https://www.iproov.com/biometric-data-retention-schedule
+    section: Retention of Biometric Information
+    stated_period: purpose fulfilled or three years after last interaction, whichever comes first (biometric data)
+    evidence:
+    - source: https://www.iproov.com/biometric-data-retention-schedule
+      http_status: 200
+      fetched: '2026-10-18'
+      quote: >-
+        Unless retention is required by law or legal process, iProov will retain your biometric information only
+        until (a) the initial purpose for which iProov collected your biometric information has been fulfilled, or
+        (b) three years following your last interaction with iProov through its customer(s), whichever comes first.
+    - source: https://www.iproov.com/privacy-policy
+      http_status: 200
+      fetched: '2026-10-18'
+      quote: Upon conclusion of the need for your personal data, we either delete or anonymise it.
+    note: >-
+      A concrete maximum retention period (three years from last interaction) is published for biometric data
+      collected via customers; for other personal data the Privacy Policy gives only criteria, no fixed period.
+      The schedule page returned 403 to a plain curl and 200 to the pipeline's browser fetcher.
+  incident_notification:
+    url: https://www.iproov.com/privacy-policy
+    evidence:
+    - source: https://www.iproov.com/privacy-policy
+      http_status: 200
+      fetched: '2026-10-18'
+      quote: >-
+        We have procedures to handle any suspected personal information breach and will notify you, and any
+        applicable regulator, of a breach where we are legally required to do so.
+    note: Breach notification is committed only to the extent legally required; no contractual timeframe is stated.
+  data_residency:
+    url: https://www.iproov.com/privacy-policy
+    section: Transferring your personal information from the EU to third countries
+    evidence:
+    - source: https://www.iproov.com/privacy-policy
+      http_status: 200
+      fetched: '2026-10-18'
+      quote: >-
+        The personal information iProov collects from you may be transferred and processed outside of the EU / EEA
+        on our sub processor platforms. iProov relies on Article 49 of the GDPR as the basis for such transfers.
+    note: >-
+      No residency commitment: the policy states data may leave the EU/EEA and relies on Article 49 derogations
+      rather than naming SCCs or adequacy. Applies to website/marketing data, not the biometric service.
+  subprocessors:
+    url: https://www.iproov.com/privacy-policy
+    evidence:
+    - source: https://www.iproov.com/privacy-policy
+      http_status: 200
+      fetched: '2026-10-18'
+      quote: >-
+        We may engage third parties to process your personal information for the purposes mentioned above, such as:
+        website and app hosting services; messaging and SMS push communications services; online and offline
+        marketing services; our professional and legal advisers;
+    note: Only categories of processors are named; no published subprocessor list was found on the legal pages.

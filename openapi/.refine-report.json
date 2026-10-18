@@ -1,0 +1,29 @@
+{
+  "provider": "iproov",
+  "sources": [
+    "_original/iproov-swagger.json",
+    "iproov-openapi.yml"
+  ],
+  "outputs": [
+    "iproov-enrol-api-openapi.yml",
+    "iproov-management-api-openapi.yml",
+    "iproov-user-api-openapi.yml",
+    "iproov-verify-api-openapi.yml"
+  ],
+  "archived": [
+    "archived openapi/iproov-openapi.yml"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "iproov-swagger.json: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "iproov-openapi.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "tag 'Enrol' spans 2 source specs (iproov-swagger.json, iproov-openapi.yml): per-path servers applied",
+    "tag 'Management' spans 2 source specs (iproov-swagger.json, iproov-openapi.yml): per-path servers applied",
+    "tag 'User' spans 2 source specs (iproov-swagger.json, iproov-openapi.yml): per-path servers applied",
+    "tag 'Verify' spans 2 source specs (iproov-swagger.json, iproov-openapi.yml): per-path servers applied",
+    "apis.yml register: written (+4 apis, 5 total)"
+  ],
+  "skipped": []
+}

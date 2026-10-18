@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/iproov/main/json-schema/iproov-enrol-validate-request-schema.json",
+  "title": "EnrolValidateRequest",
+  "x-generated": "2026-10-18",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/iproov-openapi.yml#/components/schemas/EnrolValidateRequest",
+  "required": [
+    "api_key",
+    "secret",
+    "user_id",
+    "token",
+    "client"
+  ],
+  "properties": {
+    "api_key": {
+      "description": "The API key of the service provider",
+      "type": "string"
+    },
+    "secret": {
+      "description": "The API secret for the service provider",
+      "type": "string",
+      "format": "password"
+    },
+    "user_id": {
+      "description": "The asserted identifier of the user",
+      "type": "string",
+      "format": "uuid"
+    },
+    "token": {
+      "description": "The token for the claim",
+      "type": "string"
+    },
+    "client": {
+      "description": "Fingerprint or client identifier of the device making the request (e.g. User Agent)",
+      "type": "string"
+    },
+    "activate": {
+      "description": "Activate the user's account (default: true).  User will be SUSPENDED if false.",
+      "type": "boolean"
+    }
+  },
+  "type": "object"
+}

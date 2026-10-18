@@ -1,23 +1,269 @@
 aid: iproov
+
 name: iProov
-description: 'iProov is a company surfaced via the API Evangelist harvest backlog (source: kin-score-markets)
-  and added to the network as a stub for full-pipeline profiling.'
+
+description: 'iProov is a biometric identity verification, onboarding, and authentication company that uses science-based facial liveness detection
+  to protect organizations from deepfakes, identity fraud, and AI-generated attacks. It provides biometric capture, matching, and liveness capabilities
+  for remote onboarding and authentication, delivered through a server REST API and client SDKs for iOS, Android, Web, Flutter, React Native and
+  .NET MAUI, with the iPortal customer portal for configuration. Legal entity: iProov Ltd.'
+
 url: https://raw.githubusercontent.com/api-evangelist/iproov/refs/heads/main/apis.yml
+
 x-type: company
+
 x-source: harvest:kin-score-markets
-x-tier: stub
-x-tier-reason: harvest
+
+x-tier: profiled
+x-tier-reason: enrichment pass 2026-10-18 (modular-v1; was harvest)
+
 specificationVersion: '0.20'
+
 created: '2026-10-18'
+
 modified: '2026-10-18'
+
 tags:
 - Company
-apis: []
+- Biometrics
+- Identity Verification
+- Authentication
+- Liveness Detection
+- Face Verification
+- Fraud Prevention
+- Deepfake Detection
+
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+
+image: https://www.iproov.com/wp-content/uploads/2024/01/iProov-Approved-Logo-v1.svg
+
 common:
+- type: AgenticAccess
+  url: agentic-access/iproov-agentic-access.yml
+- type: RateLimits
+  url: rate-limits/iproov-rate-limits.yml
+- type: Spectral
+  url: rules/iproov-rules.yml
+- type: JSONLD
+  url: json-ld/iproov-context.jsonld
+- type: Vocabulary
+  url: vocabulary/iproov-vocabulary.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: DataModel
+  url: data-model/iproov-data-model.yml
+- type: Components
+  url: components/iproov-components.yml
+- type: ChangeLog
+  url: changelog/iproov-changelog.yml
+- type: Conventions
+  url: conventions/iproov-conventions.yml
+- type: Deprecation
+  url: lifecycle/iproov-lifecycle.yml
+- type: Lifecycle
+  url: lifecycle/iproov-lifecycle.yml
+- type: ErrorCatalog
+  url: errors/iproov-problem-types.yml
+- type: Conformance
+  url: conformance/iproov-conformance.yml
+- type: Overlay
+  url: overlays/iproov-rest-api-overlay.yaml
+- type: LLMsTxt
+  url: llms/iproov-llms.txt
+- type: WellKnown
+  url: well-known/iproov-well-known.yml
+- type: Hosts
+  url: hosts/iproov-hosts.yml
+- type: IntegrationEdges
+  url: integrations/iproov-integration-edges.yml
+- type: Vendors
+  url: vendors/iproov-vendors.yml
+- type: SDKs
+  url: packages/iproov-packages.yml
+- type: Packages
+  url: packages/iproov-packages.yml
+- type: Authentication
+  url: authentication/iproov-authentication.yml
+- type: OAuthScopes
+  url: scopes/iproov-scopes.yml
+- type: DomainSecurity
+  url: security/iproov-domain-security.yml
 - type: Website
-  url: https://iproov.com
+  url: https://www.iproov.com
+- type: Documentation
+  url: https://docs.iproov.com/
+- type: GettingStarted
+  url: https://docs.iproov.com/getting-started
+- type: APIReference
+  url: https://eu.rp.secure.iproov.me/docs.html
+- type: DeveloperPortal
+  url: https://portal.iproov.com/
+- type: Login
+  url: https://portal.iproov.com/
+- type: Support
+  url: https://docs.iproov.com/getting-started/support
+- type: Lifecycle
+  url: https://docs.iproov.com/getting-started/sdk-lifecycle
+- type: Blog
+  url: https://www.iproov.com/blog
+- type: Newsroom
+  url: https://www.iproov.com/newsroom
+- type: Leadership
+  url: https://www.iproov.com/leadership
+- type: Contact
+  url: https://www.iproov.com/contact-us
+- type: GitHubOrganization
+  url: https://github.com/iProov
+- type: TermsOfService
+  url: https://www.iproov.com/terms-and-conditions
+- type: PrivacyPolicy
+  url: https://www.iproov.com/privacy-policy
+- type: Twitter
+  url: https://twitter.com/iproov
+- type: LinkedIn
+  url: https://www.linkedin.com/company/iproov/
+
+apis:
+- aid: iproov:iportal-api
+  name: iPortal API
+  description: >-
+    Machine-to-machine management API for iPortal: a service account exchanges its key and secret (HTTP
+    Basic) at POST /auth/token for a 15-minute JWT, then creates service providers (POST /service-providers),
+    resets their credentials (POST /service-providers/{apiKey}/reset) and checks health (GET /status,
+    GET /ready). Must be enabled by iProov; the host is replaced per region.
+  humanURL: https://docs.iproov.com/iportal/iportal-api
+  baseURL: https://portal.iproov.com/management
+  tags:
+  - Administration
+  properties:
+  - type: Documentation
+    url: https://docs.iproov.com/iportal/iportal-api
+  x-contract-source: >-
+    No published contract found: portal.iproov.com/management/openapi.json and /swagger.json return the
+    iPortal SPA HTML shell (200 text/html), not a spec (probed 2026-10-18).
+- aid: iproov:iproov-enrol-api
+  name: iProov Enrol API
+  description: Enrol a user with iProov.
+  humanURL: https://eu.rp.secure.iproov.me/docs.html
+  baseURL: https://eu.rp.secure.iproov.me/api/v2
+  tags:
+  - Enrol
+  properties:
+  - type: OpenAPI
+    url: openapi/iproov-enrol-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iproov.com/implementation/api/prepare
+  - type: APIReference
+    url: https://eu.rp.secure.iproov.me/docs.html
+  - type: JSONSchema
+    url: json-schema/iproov-claim-validate-response-schema.json
+  - type: JSONSchema
+    url: json-schema/iproov-claim-response-schema.json
+  - type: JSONSchema
+    url: json-schema/iproov-verify-response-schema.json
+  - type: JSONSchema
+    url: json-schema/iproov-claim-validate-request-schema.json
+  - type: JSONSchema
+    url: json-schema/iproov-enrol-validate-request-schema.json
+  - type: JSONSchema
+    url: json-schema/iproov-server-claim-request-schema.json
+- aid: iproov:iproov-management-api
+  name: iProov Management API
+  description: Management
+  humanURL: https://eu.rp.secure.iproov.me/docs.html
+  baseURL: https://eu.rp.secure.iproov.me/api/v2
+  tags:
+  - Management
+  properties:
+  - type: OpenAPI
+    url: openapi/iproov-management-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iproov.com/implementation/api/prepare
+  - type: APIReference
+    url: https://eu.rp.secure.iproov.me/docs.html
+  - type: JSONSchema
+    url: json-schema/iproov-claim-validate-response-schema.json
+  - type: JSONSchema
+    url: json-schema/iproov-claim-response-schema.json
+  - type: JSONSchema
+    url: json-schema/iproov-verify-response-schema.json
+  - type: JSONSchema
+    url: json-schema/iproov-claim-validate-request-schema.json
+  - type: JSONSchema
+    url: json-schema/iproov-enrol-validate-request-schema.json
+  - type: JSONSchema
+    url: json-schema/iproov-server-claim-request-schema.json
+- aid: iproov:iproov-user-api
+  name: iProov User API
+  description: iProov user management APIs.
+  humanURL: https://eu.rp.secure.iproov.me/docs.html
+  baseURL: https://eu.rp.secure.iproov.me/api/v2
+  tags:
+  - User
+  properties:
+  - type: OpenAPI
+    url: openapi/iproov-user-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iproov.com/implementation/api/prepare
+  - type: APIReference
+    url: https://eu.rp.secure.iproov.me/docs.html
+  - type: JSONSchema
+    url: json-schema/iproov-claim-validate-response-schema.json
+  - type: JSONSchema
+    url: json-schema/iproov-claim-response-schema.json
+  - type: JSONSchema
+    url: json-schema/iproov-verify-response-schema.json
+  - type: JSONSchema
+    url: json-schema/iproov-claim-validate-request-schema.json
+  - type: JSONSchema
+    url: json-schema/iproov-enrol-validate-request-schema.json
+  - type: JSONSchema
+    url: json-schema/iproov-server-claim-request-schema.json
+- aid: iproov:iproov-verify-api
+  name: iProov Verify API
+  description: Verify an enrolled user with iProov.
+  humanURL: https://eu.rp.secure.iproov.me/docs.html
+  baseURL: https://eu.rp.secure.iproov.me/api/v2
+  tags:
+  - Verify
+  properties:
+  - type: OpenAPI
+    url: openapi/iproov-verify-api-openapi.yml
+  - type: Documentation
+    url: https://docs.iproov.com/implementation/api/prepare
+  - type: APIReference
+    url: https://eu.rp.secure.iproov.me/docs.html
+  - type: JSONSchema
+    url: json-schema/iproov-claim-validate-response-schema.json
+  - type: JSONSchema
+    url: json-schema/iproov-claim-response-schema.json
+  - type: JSONSchema
+    url: json-schema/iproov-verify-response-schema.json
+  - type: JSONSchema
+    url: json-schema/iproov-claim-validate-request-schema.json
+  - type: JSONSchema
+    url: json-schema/iproov-enrol-validate-request-schema.json
+  - type: JSONSchema
+    url: json-schema/iproov-server-claim-request-schema.json
+x-coverage:
+  state: covered
+  reason: identity-verified
+  detail: Website and pointers verified by fetch on 2026-10-18; homepage title and docs footer name iProov Ltd.
+  evidence:
+  - url: https://www.iproov.com/
+    status: 200
+  - url: https://docs.iproov.com/getting-started
+    status: 200
+  - url: https://eu.rp.secure.iproov.me/docs.html
+    status: 200
+  - url: https://portal.iproov.com/
+    status: 200
+x-enrichment:
+  date: '2026-10-18'
+  status: enriched
+  artifacts_added: 44
+  pass: modular-v1
+  engine: identity=anthropic,contract=anthropic,surfaces=anthropic,docs=deepseek,regulatory=anthropic

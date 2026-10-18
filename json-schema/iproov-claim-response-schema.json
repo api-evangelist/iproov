@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/iproov/main/json-schema/iproov-claim-response-schema.json",
+  "title": "ClaimResponse",
+  "x-generated": "2026-10-18",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/iproov-openapi.yml#/components/schemas/ClaimResponse",
+  "required": [
+    "fallback",
+    "token",
+    "primary",
+    "user_id",
+    "pod"
+  ],
+  "properties": {
+    "fallback": {
+      "description": "The fallback gives relevant fallback information. It contains a 'type' key and a 'message' key that provides more information about the fallback to be optionally displayed to the user",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/FallbackDefinition"
+      }
+    },
+    "token": {
+      "description": "The token should be referenced if there are issues with an individuals claim and is used as a transaction id. Must be claimed within 2 mins, otherwise it expires.",
+      "type": "string"
+    },
+    "primary": {
+      "type": "string"
+    },
+    "user_id": {
+      "description": "The user id of the user associated with the token. Null if no user is associated with the token.",
+      "type": "string",
+      "format": "uuid"
+    },
+    "pod": {
+      "description": "The pod that will be used for the claim.",
+      "type": "string"
+    },
+    "redirect_domain": {
+      "description": "If the service provider has a dedicated landing page hosted at iProov this will contain the URL to redirect to.",
+      "type": "string",
+      "deprecated": true
+    }
+  },
+  "type": "object",
+  "$defs": {
+    "FallbackDefinition": {
+      "required": [
+        "type",
+        "message"
+      ],
+      "properties": {
+        "type": {
+          "description": "The type of the fallback to be used",
+          "type": "string"
+        },
+        "message": {
+          "description": "The message to show the user about the fallback",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

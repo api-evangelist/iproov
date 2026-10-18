@@ -1,0 +1,332 @@
+openapi: 3.2.0
+info:
+  title: Iproov Management API
+  version: 2.20.1
+  contact:
+    name: iProov API Team
+  x-logo:
+    url: logo.svg
+    altText: iProov Logo
+  description: 'Operations tagged Management across 2 of this provider''s published API definitions: iproov-swagger.json, iproov-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://<base_url>/api/v2
+  description: API Server
+tags:
+- name: Management
+  description: Management
+paths:
+  /availability:
+    get:
+      tags:
+      - Management
+      summary: Check the platform is available
+      description: Check the requested platform is available.
+      operationId: platformAvailable
+      parameters:
+      - name: api_key
+        in: query
+        description: The API key of the service provider
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailabilityResponse'
+        '400':
+          description: Bad Request or Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+    servers:
+    - url: https://<base_url>/api/v2
+      description: API Server
+  /claim/{token}/invalidate:
+    post:
+      tags:
+      - Management
+      summary: Invalidates a token
+      operationId: invalidateToken
+      parameters:
+      - name: token
+        in: path
+        description: The token to invalidate
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvalidateClaimRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidateClaimResponse'
+        '400':
+          description: Bad Request or Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidCredentialErrorResponse'
+        '403':
+          description: Access Denied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidCredentialErrorResponse'
+        '500':
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+    servers:
+    - url: https://<base_url>/api/v2
+      description: API Server
+  /{api_key}/access_token:
+    post:
+      tags:
+      - Management
+      summary: Allows a registered application to obtain an OAuth 2 Bearer Token
+      description: 'Allows a registered application to obtain an OAuth 2 Bearer Token, which can be used to make API requests on an application''s own behalf, without a user context. Currently only `client_credentials` grant is supported.
+
+
+        Note:
+
+
+        - The OAuth username and password are to be provided via the Authorization header in Basic format. These are distinct to the service provider API key and secret and supplied separately.
+
+        - The `access_token` returned expires after 1 hr, or after 50 requests, whichever is earlier.
+
+        - The `access_token` needs to be refreshed after it expires.'
+      operationId: generateToken
+      parameters:
+      - name: api_key
+        in: path
+        description: The API key of the service provider
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              required:
+              - grant_type
+              properties:
+                grant_type:
+                  description: The type of grant being requested by the application
+                  type: string
+                scope:
+                  description: Optionally define the scopes being required (omitting grants all allowed scopes)
+                  type: array
+                  items:
+                    type: string
+              type: object
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthTokenResponse'
+        '400':
+          description: Bad Request or Client Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthServerErrorResponse'
+      security:
+      - basicAuth: []
+    servers:
+    - url: https://<base_url>/api/v2
+      description: API Server
+components:
+  schemas:
+    InvalidateClaimRequest:
+      required:
+      - reason
+      properties:
+        reason:
+          description: The reason to be displayed to the user for the invalidation of the claim
+          type: string
+      type: object
+    ErrorResponse:
+      description: The Error response contains an error constant which can be used to split up responses and can be converted to translatable error messages. The error description returns a more descriptive error response that is largely designed for developers to get detailed information for failures.
+      required:
+      - error
+      - error_description
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
+      type: object
+    ServerErrorResponse:
+      description: Server Error
+      required:
+      - error
+      - error_description
+      properties:
+        error:
+          description: Generic iProov error code. If you receive this error code frequently please contact your customer success team or support@iproov.com.
+          type: string
+          enum:
+          - server_error
+        error_description:
+          type: string
+      type: object
+    InvalidateClaimResponse:
+      required:
+      - claim_aborted
+      - user_informed
+      properties:
+        claim_aborted:
+          description: True if claim was invalidated.
+          type: boolean
+          example: true
+        user_informed:
+          description: True if the user was successfully informed that the claim has been invalidated.
+          type: boolean
+          example: true
+      type: object
+    AvailabilityResponse:
+      required:
+      - up
+      properties:
+        up:
+          description: Whether iProov service is available or not.
+          type: boolean
+          example: true
+      type: object
+    OAuthServerErrorResponse:
+      required:
+      - error
+      - error_description
+      properties:
+        error:
+          description: "\n - `invalid_key`: Missing or incorrect API Key. Check your API Key is correct:\n\n     1. Log into the iPortal.\n     2. Select your Service Provider.\n     3. Copy your API key.\n     4. Ensure your API Key and Secret are for the correct service provider.\n - `server_error`: Generic iProov error code. If you receive this error code frequently please contact your customer success team or support@iproov.com."
+          type: string
+          enum:
+          - invalid_key
+          - server_error
+          example: invalid_key
+        error_description:
+          type: string
+          example: Invalid API Key
+      type: object
+    ClientErrorResponse:
+      description: Missing data in the request, or the state of the requested entity object is such that the operation could not succeed.
+      required:
+      - error
+      - error_description
+      properties:
+        error:
+          description: "\n - `invalid_agent`: **DEPRECATED**.\n - `invalid_user_id`: Malformed, illegal characters in the user_id, missing, or non-existent user_id given.\n   - Regex: `[a-zA-Z0-9'\\+_@\\.-]{1,256}`.\n\n - `invalid_token`: An invalid token was provided in the body.\n   - Ensure the correct claim token is passed from the POST /claim/enrol/token or POST /claim/verify/token calls.\n   - Ensure the token is incorrectly reused. For an Enrol Capture call, once an image has been **registered** against a token, it cannot be called again.\n   - Attempted to validate a claim token that was previously validated.\n   - Attempted to validate a claim token before video imagery finished streaming.\n\n - `invalid_validation`: The username does not match the username associated with the claim token.\n   - Ensure the correct `user_id` is used.\n\n - `invalid_reason`: Malformed, illegal characters in `reason` parameter.\n   - Regex: `^[a-zA-Z0-9_.:=()'\\'\\\"/\\s]{1,800}$`.\n\n - `no_face_found`: No face found in enrolment image. Please try again with a photo with a face in it.\n - `invalid_grant`: Malformed, or missing `grant_type`. Correct the `grant_type` field.\n   - Regex: `^[a-zA-Z0-9_\\-.]{0,30}$`.\n\n - `invalid_request`: Malformed, or invalid IPv4 address given in `ip` field, or missing `grant_type` parameter.\n - `invalid_client`: Invalid, or missing basicAuth credentials for the given API key/Service Provider when requesting\n   OAuth `access_token`. Provide the correct credentials/API key - defined within your Service Provider. A key rotation\n   may have occurred.\n - `invalid_scope`: Malformed `scope` parameter in request.\n   - Regex: `^[a-zA-Z0-9_\\-.]{0,100}$`.\n\n - `unsupported_grant_type`: The request's `grant_type` parameter value is not `client_credentials`.\n - `missing_data`: Missing `resource`, `reason` or `token` parameter/value in request body.\n - `no_user`: The given `user_id` or username doesn't exist.\n - `inactive_user`: User is in the wrong state (should have an Active state). Ensure the user is not suspected (User management API).\n - `invalid_enrol_image`: Missing image attachment in multipart form data. Ensure the image is appended to the multipart form body correctly.\n - `invalid_source`: The `source` request parameter value must be one of `oid`, `eid` or `selfie`.\n - `already_enrolled`: The given username or `user_id` has already enrolled. Did you mean to conduct a verify transaction?\n   If a re-enrol is required, then either pass a new user_id or use the User Management API to delete the user and\n   request a new enrol claim token.\n - `invalid_key`: Missing or incorrect API Key. Check your API Key is correct:\n   1. Log into the iPortal.\n   2. Select your Service Provider.\n   3. Copy your API key.\n   4. Ensure your API Key and Secret are for the correct service provider\n"
+          type: string
+          enum:
+          - invalid_agent
+          - invalid_user_id
+          - invalid_token
+          - invalid_validation
+          - invalid_reason
+          - no_face_found
+          - invalid_grant
+          - invalid_request
+          - invalid_client
+          - invalid_scope
+          - unsupported_grant_type
+          - missing_data
+          - no_user
+          - inactive_user
+          - invalid_enrol_image
+          - invalid_source
+          - already_enrolled
+          - invalid_key
+        error_description:
+          type: string
+      type: object
+    AuthTokenResponse:
+      description: A OAuth2 standard compliant response giving an OAuth access token. Usable for up to 50 requests
+      required:
+      - access_token
+      - token_type
+      - expires_in
+      properties:
+        access_token:
+          type: string
+          example: zAVFcpZ1Lxa5DeFnIbOotU4QjX7GEYuonoEj2WY2VygoJzCYhjEqiQqnNrVq
+        token_type:
+          type: string
+          example: Bearer
+        expires_in:
+          type: integer
+          example: 3600
+        scope:
+          type: array
+          items:
+            type: string
+          example:
+          - user-read
+      type: object
+    InvalidCredentialErrorResponse:
+      description: 'One of: invalid OAuth token, expired OAuth token, invalid credentials, API Key and/or Secret is missing, malformed, or incorrect.'
+      required:
+      - error
+      - error_description
+      properties:
+        error:
+          description: "\n - `invalid_key`: Missing or incorrect API Key. Check your API Key is correct:\n   1. Log into the iPortal.\n   2. Select your Service Provider.\n   3. Copy your API key.\n   4. Ensure your API Key and Secret are for the correct service provider\n - `invalid_oauth`: Missing OAuth `access_token`.\n   - Call POST /{api_key}/access_token to obtain a new OAuth Access token. Access tokens expire after 1 hr or 50 requests.\n - `invalid_token`: Invalid OAuth `access_token`.\n   - Call POST /{api_key}/access_token to obtain a new OAuth Access token. Access tokens expire after 1 hr or 50 requests.\n - `token_quota_exceeded`: 50/50 Oauth user requests used.\n   - Call POST /{api_key}/access_token to obtain a new OAuth Access token. Access tokens expire after 1 hr or 50 requests."
+          type: string
+          enum:
+          - invalid_key
+          - invalid_oauth
+          - token_quota_exceeded
+        error_description:
+          type: string
+      type: object
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: OAuth2 is used for the Management and User APIs.
+      flows:
+        clientCredentials:
+          tokenUrl: /{api_key}/access_token
+          scopes:
+            user-write: Update the user object
+            user-read: Read the information of users
+    basicAuth:
+      type: http
+      description: These can now be obtained via the iPortal - OAuth Username and OAuth password.
+      scheme: basic
+x-refined-from:
+- iproov-swagger.json
+- iproov-openapi.yml

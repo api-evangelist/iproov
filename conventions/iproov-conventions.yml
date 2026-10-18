@@ -1,0 +1,38 @@
+generated: '2026-10-18'
+method: searched
+source: https://docs.iproov.com/implementation/api/rate-limiting
+sources:
+- https://docs.iproov.com/implementation/api/rate-limiting
+- openapi/iproov-openapi.yml
+authentication:
+  style: mixed
+  schemes:
+  - api_key: API key and secret in request body for service API
+  - oauth2: OAuth 2.0 client credentials for management API
+  - basic: HTTP Basic for OAuth token endpoint
+idempotency:
+  coverage: none
+  note: No idempotency mechanism documented in API specification
+pagination:
+  style: none
+  note: No pagination conventions documented
+rate_limits:
+  signaling:
+    headers:
+    - Retry-After
+    status_code: 429
+  note: Rate limit signaled with HTTP 429 status code and Retry-After header
+error_handling:
+  format: application/json
+  envelope:
+    error: error code
+    error_description: human-readable description
+  note: Consistent error format across all error responses
+versioning:
+  scheme: semantic
+  current: 2.20.1
+  location: info.version in OpenAPI spec
+reversibility:
+  note: No reversal operations documented for biometric verification transactions
+dry_run_mode: na
+note: API uses mixed authentication schemes. Error responses follow consistent JSON format with error and error_description fields. Rate limiting uses HTTP 429 with Retry-After header.

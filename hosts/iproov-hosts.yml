@@ -1,0 +1,141 @@
+generated: '2026-10-18'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 9
+  own: 4
+  other_domain: 2
+  platform: 3
+  roles:
+  - api
+  - docs
+  - other
+  - portal
+  - source
+  - website
+hosts:
+- host: api.iproov.com
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: iproov.com
+  role: api
+  relation: own
+- host: api.iproov.me
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: iproov.me
+  role: api
+  relation: other-domain
+- host: docs.iproov.com
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - site-links
+  - docs-index
+  - contract-discovery
+  - well-known
+  - vendor-detect
+  types:
+  - Documentation
+  - GettingStarted
+  - Support
+  - Lifecycle
+  serves:
+  - docs
+  - cdn
+  - documentation
+  - hosting
+  vendor: fastly
+  registrable_domain: iproov.com
+  role: docs
+  relation: own
+- host: eu.rp.secure.iproov.me
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - docs-index
+  - spec-found
+  - contract-discovery
+  - well-known
+  types:
+  - APIReference
+  serves:
+  - api
+  - docs
+  - spec
+  registrable_domain: iproov.me
+  role: docs
+  relation: other-domain
+- host: github.com
+  found_by:
+  - pointer
+  types:
+  - GitHubOrganization
+  serves: []
+  registrable_domain: github.com
+  role: source
+  relation: platform
+- host: portal.iproov.com
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - site-links
+  - docs-index
+  - contract-discovery
+  - well-known
+  types:
+  - DeveloperPortal
+  - Login
+  serves:
+  - api
+  - docs
+  registrable_domain: iproov.com
+  role: portal
+  relation: own
+- host: twitter.com
+  found_by:
+  - pointer
+  types:
+  - Twitter
+  serves: []
+  registrable_domain: twitter.com
+  role: other
+  relation: platform
+- host: www.iproov.com
+  found_by:
+  - pointer
+  - probed
+  - well-known
+  - vendor-detect
+  types:
+  - Website
+  - Blog
+  - Newsroom
+  - Leadership
+  - Contact
+  - TermsOfService
+  - PrivacyPolicy
+  serves:
+  - cdn
+  - hosting
+  vendor: cloudflare
+  registrable_domain: iproov.com
+  role: website
+  relation: own
+- host: www.linkedin.com
+  found_by:
+  - pointer
+  types:
+  - LinkedIn
+  serves: []
+  registrable_domain: linkedin.com
+  role: other
+  relation: platform

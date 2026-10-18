@@ -1,0 +1,25 @@
+generated: '2026-10-18'
+method: derived
+source: openapi/iproov-openapi.yml
+summary:
+  types:
+  - http
+  - oauth2
+  oauth2_flows:
+  - clientCredentials
+schemes:
+- name: oauth2
+  type: oauth2
+  flows:
+  - flow: clientCredentials
+    tokenUrl: /{api_key}/access_token
+    scopes: 2
+  description: OAuth2 is used for the Management and User APIs.
+  sources:
+  - openapi/iproov-openapi.yml
+- name: basicAuth
+  type: http
+  scheme: basic
+  description: These can now be obtained via the iPortal - OAuth Username and OAuth password.
+  sources:
+  - openapi/iproov-openapi.yml

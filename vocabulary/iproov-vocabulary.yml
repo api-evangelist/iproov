@@ -1,0 +1,138 @@
+generated: '2026-10-18'
+method: derived
+generator: derive-vocabulary.py
+source: openapi/iproov-openapi.yml
+vocabulary:
+  name: iProov Domain Vocabulary
+  description: 'Terms declared by iProov''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-10-18'
+  terms:
+  - term: Enrol
+    definition: Enrol a user with iProov.
+    tags:
+    - Resource Group
+    source: openapi/iproov-openapi.yml
+  - term: Verify
+    definition: Verify an enrolled user with iProov.
+    tags:
+    - Resource Group
+    source: openapi/iproov-openapi.yml
+  - term: User
+    definition: iProov user management APIs.
+    tags:
+    - Resource Group
+    source: openapi/iproov-openapi.yml
+  - term: Management
+    definition: Management
+    tags:
+    - Resource Group
+    source: openapi/iproov-openapi.yml
+  - term: AvailabilityResponse
+    definition: 'Object declared by the contract with fields: up.'
+    tags:
+    - Object
+    source: openapi/iproov-openapi.yml#/components/schemas/AvailabilityResponse
+  - term: EnrolResponse
+    definition: 'Object declared by the contract with fields: token, user_id, success.'
+    tags:
+    - Object
+    source: openapi/iproov-openapi.yml#/components/schemas/EnrolResponse
+  - term: ServerClaimRequest
+    definition: 'Object declared by the contract with fields: api_key, secret, resource, assurance_type, user_id.'
+    tags:
+    - Object
+    source: openapi/iproov-openapi.yml#/components/schemas/ServerClaimRequest
+  - term: ClaimResponse
+    definition: 'Object declared by the contract with fields: fallback, token, primary, user_id, pod, redirect_domain.'
+    tags:
+    - Object
+    source: openapi/iproov-openapi.yml#/components/schemas/ClaimResponse
+  - term: FallbackDefinition
+    definition: 'Object declared by the contract with fields: type, message.'
+    tags:
+    - Object
+    source: openapi/iproov-openapi.yml#/components/schemas/FallbackDefinition
+  - term: InvalidAssuranceTypeResponse
+    definition: 'Object declared by the contract with fields: error, error_description.'
+    tags:
+    - Object
+    source: openapi/iproov-openapi.yml#/components/schemas/InvalidAssuranceTypeResponse
+  - term: ClaimValidateResponse
+    definition: 'Object declared by the contract with fields: passed, token, type, frame_available, frame, frame_jpeg, reason, assurance_type,
+      signals, user_feedback_codes.'
+    tags:
+    - Object
+    source: openapi/iproov-openapi.yml#/components/schemas/ClaimValidateResponse
+  - term: EnrolValidateRequest
+    definition: 'Object declared by the contract with fields: api_key, secret, user_id, token, client, activate.'
+    tags:
+    - Object
+    source: openapi/iproov-openapi.yml#/components/schemas/EnrolValidateRequest
+  - term: InvalidateClaimResponse
+    definition: 'Object declared by the contract with fields: claim_aborted, user_informed.'
+    tags:
+    - Object
+    source: openapi/iproov-openapi.yml#/components/schemas/InvalidateClaimResponse
+  - term: InvalidateClaimRequest
+    definition: 'Object declared by the contract with fields: reason.'
+    tags:
+    - Object
+    source: openapi/iproov-openapi.yml#/components/schemas/InvalidateClaimRequest
+  - term: VerifyResponse
+    definition: 'Object declared by the contract with fields: assurance_type, passed, token, user_id, type, source.'
+    tags:
+    - Object
+    source: openapi/iproov-openapi.yml#/components/schemas/VerifyResponse
+  - term: ClaimValidateRequest
+    definition: 'Object declared by the contract with fields: api_key, secret, user_id, token, client.'
+    tags:
+    - Object
+    source: openapi/iproov-openapi.yml#/components/schemas/ClaimValidateRequest
+  - term: AuthTokenResponse
+    definition: A OAuth2 standard compliant response giving an OAuth access token. Usable for up to 50 requests
+    tags:
+    - Object
+    source: openapi/iproov-openapi.yml#/components/schemas/AuthTokenResponse
+  - term: OAuthServerErrorResponse
+    definition: 'Object declared by the contract with fields: error, error_description.'
+    tags:
+    - Object
+    source: openapi/iproov-openapi.yml#/components/schemas/OAuthServerErrorResponse
+  - term: UserResponse
+    definition: Contains a description of the user with User ID, Name, Status of the user, suspension and activated date.
+    tags:
+    - Object
+    source: openapi/iproov-openapi.yml#/components/schemas/UserResponse
+  - term: UpdateUserRequest
+    definition: 'Object declared by the contract with fields: user_id, name.'
+    tags:
+    - Object
+    source: openapi/iproov-openapi.yml#/components/schemas/UpdateUserRequest
+  - term: ErrorResponse
+    definition: The Error response contains an error constant which can be used to split up responses and can be converted to translatable error
+      messages. The error description returns a more descriptive error response that is largely designed for developers to get detailed information
+      for failures.
+    tags:
+    - Object
+    source: openapi/iproov-openapi.yml#/components/schemas/ErrorResponse
+  - term: ClientErrorResponse
+    definition: Missing data in the request, or the state of the requested entity object is such that the operation could not succeed.
+    tags:
+    - Object
+    source: openapi/iproov-openapi.yml#/components/schemas/ClientErrorResponse
+  - term: InvalidCredentialErrorResponse
+    definition: 'One of: invalid OAuth token, expired OAuth token, invalid credentials, API Key and/or Secret is missing, malformed, or incorrect.'
+    tags:
+    - Object
+    source: openapi/iproov-openapi.yml#/components/schemas/InvalidCredentialErrorResponse
+  - term: RateLimitExceededResponse
+    definition: Server Error
+    tags:
+    - Object
+    source: openapi/iproov-openapi.yml#/components/schemas/RateLimitExceededResponse
+  - term: ServerErrorResponse
+    definition: Server Error
+    tags:
+    - Object
+    source: openapi/iproov-openapi.yml#/components/schemas/ServerErrorResponse

@@ -1,0 +1,18 @@
+generated: '2026-10-18'
+method: searched
+source: https://github.com/iProov/web
+sources:
+- https://github.com/iProov/web
+families:
+- name: Web Components
+  description: Web Components SDK for biometric face verification
+  loader: '@iproov/web-sdk (private npm package)'
+  platforms:
+  - Web
+  - PWA
+  features:
+  - Dynamic Liveness technology (Genuine Presence Assurance)
+  - Express Liveness technology (Liveness Assurance)
+  - Web Components API
+  documentation: https://github.com/iProov/web
+note: Web SDK provides Web Components for face verification. Also available as native SDKs for iOS, Android, Flutter, React Native, and .NET MAUI.

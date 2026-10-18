@@ -1,0 +1,18 @@
+generated: '2026-10-18'
+method: searched
+generator: extract-docs-artifacts.py (deepseek)
+source: https://docs.iproov.com/implementation/api/rate-limiting
+sources:
+- https://docs.iproov.com/implementation/api/rate-limiting
+- https://docs.iproov.com/implementation/api/rate-limiting/exponential-backoff
+- https://docs.iproov.com/implementation/api/rate-limiting/leaky-bucket
+- https://docs.iproov.com/implementation/api/rate-limiting/linear-backoff
+name: iProov rate limits
+limits:
+- name: TPS limit per Service Provider
+  limit_text: '"TPS limit as per your contract" Transactions Per Second (TPS) per Service Provider'
+  window: second
+  scope: Service Provider
+exhaustion_status: 429
+note: The TPS limit does not impact at the SDK level, meaning once the user journey has started in the app it will complete successfully.
+docs: https://docs.iproov.com/implementation/api/rate-limiting

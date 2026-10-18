@@ -1,0 +1,36 @@
+name: iProov MCP Server (candidate)
+type: MCPServer
+generated: '2026-10-18'
+method: derived
+source: openapi/iproov-openapi.yml
+status: candidate
+description: >-
+  No official iProov MCP server was found: a web search for an iProov MCP server returned only generic
+  modelcontextprotocol.io material, and the provider's llms.txt (https://www.iproov.com/llms.txt, HTTP 200)
+  does not mention MCP. Pre-flight found no MCP tool documentation on docs.iproov.com, portal.iproov.com,
+  www.iproov.com or eu.rp.secure.iproov.me. The tools below are a CANDIDATE list derived 1:1 from the
+  operations in the iProov REST API v2 OpenAPI (openapi/iproov-openapi.yml). Nobody ships this server.
+deployment:
+  mode: none
+  auth: unknown
+  verified: derived
+evidence:
+- url: https://www.iproov.com/llms.txt
+  status: 200
+  note: Provider llms.txt; no MCP mention.
+- url: https://docs.iproov.com/llms.txt
+  status: 404
+api: iproov:iproov-rest-api
+tools:
+- {name: check_platform_availability, operationId: platformAvailable, description: Check the platform is available, readOnly: true}
+- {name: generate_enrol_token, operationId: userEnrolServerToken, description: Generate an enrolment token for a new user to enrol with a service provider}
+- {name: validate_enrolment, operationId: userEnrolValidate, description: Validate the enrolment was successful and activate the user}
+- {name: enrol_with_trusted_photo, operationId: userEnrolImage, description: Enrol a user through a trusted photo}
+- {name: generate_verify_token, operationId: userVerifyServerToken, description: Generate a verification token for an existing user to verify with a service provider}
+- {name: validate_verification, operationId: userVerifyValidate, description: Validate the verification was successful}
+- {name: verify_with_trusted_photo, operationId: userVerifyImage, description: Verify a user through a trusted photo}
+- {name: invalidate_token, operationId: invalidateToken, description: Invalidates a token, destructive: true}
+- {name: get_access_token, operationId: generateToken, description: Allows a registered application to obtain an OAuth 2 Bearer Token}
+- {name: get_user, operationId: userGet, description: "Get a user's persona for a service provider", readOnly: true}
+- {name: update_user, operationId: userUpdate, description: "Update a user's identifier for a service provider"}
+- {name: delete_user, operationId: userDelete, description: "Deletes a user's persona from a service provider", destructive: true}

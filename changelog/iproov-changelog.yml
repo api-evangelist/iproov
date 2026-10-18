@@ -1,0 +1,26 @@
+generated: '2026-10-18'
+method: searched
+source: https://github.com/iProov/ios/releases
+sources:
+- https://github.com/iProov/ios/releases
+- https://github.com/iProov/android/releases
+- https://github.com/iProov/web/releases
+scheme: semantic
+current_version: '14.0.0'
+entries:
+- version: '14.0.0'
+  date: '2026-10-15'
+  breaking: unknown
+  highlights:
+  - Latest iOS SDK release
+- version: '13.2.1'
+  date: '2026-07-16'
+  breaking: unknown
+  highlights:
+  - iOS SDK patch release
+- version: '13.2.0'
+  date: '2026-07-08'
+  breaking: unknown
+  highlights:
+  - iOS SDK minor release
+note: SDK releases tracked on GitHub. API version is 2.20.1 per OpenAPI spec. Release notes available on GitHub repositories.

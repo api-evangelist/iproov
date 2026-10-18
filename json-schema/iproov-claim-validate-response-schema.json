@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/iproov/main/json-schema/iproov-claim-validate-response-schema.json",
+  "title": "ClaimValidateResponse",
+  "x-generated": "2026-10-18",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/iproov-openapi.yml#/components/schemas/ClaimValidateResponse",
+  "required": [
+    "passed",
+    "token",
+    "type"
+  ],
+  "properties": {
+    "passed": {
+      "type": "boolean"
+    },
+    "token": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "frame_available": {
+      "description": "Present and True if there is frame available for returning to the integrator.",
+      "type": "string"
+    },
+    "frame": {
+      "description": "If `frame_available` is present and True, a base64 encoded PNG format representation of the frame. Is enabled on a per service provider basis in iPortal.",
+      "type": "string",
+      "format": "PNG"
+    },
+    "frame_jpeg": {
+      "description": "If `frame_available` is present and True, a base64 encoded representation of the frame in JPEG format. Is enabled on a per service provider basis. Contact support@iproov.com to enable this.",
+      "type": "string",
+      "format": "JPG"
+    },
+    "reason": {
+      "description": "The failure reason (enabled on a per service provider basis)",
+      "type": "string"
+    },
+    "assurance_type": {
+      "description": "Which assurance type was utilized by the transaction",
+      "type": "string",
+      "default": "genuine_presence",
+      "enum": [
+        "genuine_presence",
+        "liveness"
+      ]
+    },
+    "signals": {
+      "description": "An additional summary about the claim. Please speak to Customer Support or email support@iproov.com to enable this. Please note, this request may take up to 2 weeks to action.",
+      "properties": {
+        "anti_spoofing": {
+          "description": "Whether the claim passed antispoofing biometric tests. `null` value means biometric test results aren't available, most likely due to an error.",
+          "properties": {
+            "passed": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            }
+          },
+          "type": "object"
+        },
+        "matching": {
+          "description": "Whether the claim passed face matching. Only relevant when video verifying. `null` value means the face matching result isn't available, most likely due to an error.",
+          "properties": {
+            "passed": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            }
+          },
+          "type": "object"
+        },
+        "multiple_faces": {
+          "description": "A summary of multiple/single face detection results.",
+          "properties": {
+            "single_face": {
+              "properties": {
+                "found": {
+                  "description": "Whether exactly 1 face was found in the validate frame. `null` value means the signle face detection algorithm result isn't available, most likely due to an error.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              },
+              "type": "object"
+            },
+            "face_consistent": {
+              "properties": {
+                "passed": {
+                  "description": "Whether the same face was detected in the video stream. This signal is relevant with LA transactions only at this time. `null` value means the consistent face detection algorithm result isn't available, most likely due to an error.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              },
+              "type": "object"
+            }
+          },
+          "type": "object"
+        },
+        "return_frame_quality": {
+          "description": "An image quality assessment of the returned frame. Only available when `on_validate_return_frame` is enabled.",
+          "properties": {
+            "blur": {
+              "description": "The quality of blur.",
+              "type": "string",
+              "default": "not_available",
+              "enum": [
+                "not_available",
+                "Good",
+                "Acceptable",
+                "Poor"
+              ]
+            },
+            "pose": {
+              "description": "The quality of pose.",
+              "type": "string",
+              "default": "not_available",
+              "enum": [
+                "not_available",
+                "Good",
+                "Acceptable",
+                "Poor"
+              ]
+            },
+            "lighting": {
+              "description": "The quality of lighting.",
+              "type": "string",
+              "default": "not_available",
+              "enum": [
+                "not_available",
+                "Good",
+                "Acceptable",
+                "Poor"
+              ]
+            }
+          },
+          "type": "object"
+        }
+      },
+      "type": "object"
+    },
+    "user_feedback_codes": {
+      "description": "List of user feedback codes, up-to 3 can be returned. These codes are designed to be immediately actionable for end users, helping them to improve their next attempt. These will map to the SDK feedback codes (please note, exact strings will differ according to the corresponding platform naming conventions).",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "ufc_background_issue",
+          "ufc_device_issue",
+          "ufc_device_restart",
+          "ufc_eyewear",
+          "ufc_eyes_closed",
+          "ufc_face_not_found",
+          "ufc_frames_blurry",
+          "ufc_lighting_issues",
+          "ufc_motion_issue",
+          "ufc_multiple_faces",
+          "ufc_obscured_face",
+          "ufc_processing_fault",
+          "ufc_rejected",
+          "ufc_system_error",
+          "ufc_timeout"
+        ]
+      }
+    }
+  },
+  "type": "object"
+}

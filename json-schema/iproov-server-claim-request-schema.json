@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/iproov/main/json-schema/iproov-server-claim-request-schema.json",
+  "title": "ServerClaimRequest",
+  "x-generated": "2026-10-18",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/iproov-openapi.yml#/components/schemas/ServerClaimRequest",
+  "required": [
+    "api_key",
+    "secret",
+    "resource",
+    "user_id"
+  ],
+  "properties": {
+    "api_key": {
+      "description": "The API key of the service provider",
+      "type": "string"
+    },
+    "secret": {
+      "description": "The API secret for the service provider",
+      "type": "string",
+      "format": "password"
+    },
+    "resource": {
+      "description": "The resource being accessed (e.g. URL)",
+      "type": "string"
+    },
+    "assurance_type": {
+      "description": "The assurance type of the claim",
+      "type": "string",
+      "default": "genuine_presence",
+      "enum": [
+        "genuine_presence",
+        "liveness"
+      ]
+    },
+    "user_id": {
+      "description": "The asserted identifier of the user.",
+      "type": "string",
+      "format": "uuid"
+    }
+  },
+  "type": "object"
+}

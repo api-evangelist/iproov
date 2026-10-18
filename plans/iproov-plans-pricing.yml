@@ -1,0 +1,15 @@
+generated: '2026-10-18'
+method: none
+name: iProov pricing
+audience: business-product
+pricing_basis: negotiated
+published: false
+delivery:
+  mode: managed
+  evidence: ''
+  free_edition: null
+  managed_tier: null
+  open_source_license: null
+plan_count: 0
+plans: []
+note: No public pricing information found. iProov appears to use enterprise/negotiated pricing model. Contact sales for pricing information.
