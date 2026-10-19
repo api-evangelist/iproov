@@ -1,0 +1,12 @@
+{
+ "url": "https://eu.rp.secure.iproov.me/swagger.json",
+ "requested_url": "https://eu.rp.secure.iproov.me/swagger.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 85785,
+ "sha256": "1ad53dc77cc56140111eb96e509fa849367fecbe3738a479ea5e7c6cc87c246c",
+ "fetched_at": "2026-10-19",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the archived file is byte-identical to what the provider serves."
+}
