@@ -466,3 +466,73 @@
     detected: '2026-10-20'
   status: not-a-workflow
   arazzo: null
+- slug: iproov-ibeta-iso-iec-30107-3-presentation-attack-detection
+  label: iBeta (ISO/IEC 30107-3 presentation attack detection)
+  partner_name: iBeta (ISO/IEC 30107-3 presentation attack detection)
+  category: biometric conformance (PAD)
+  type: register
+  channel: standard-directory
+  evidence: https://www.ibeta.com/iso-30107-3-presentation-attack-detection-confirmation-letters/
+  source: edge
+  relationship: standard-participant
+  contract_reference:
+    register: iBeta ISO/IEC 30107-3 PAD confirmation letters (ibeta.com, NIST NVLAP-accredited lab)
+    standard: ISO/IEC 30107-3 (iBeta PAD)
+    spec_file: null
+    role: ibeta-pad-confirmed
+    registered_name: iProov
+    register_id: https://ibeta.com/wp-content/uploads/2020/10/201001-iProov-New-Product-PAD-Level-2-Confirmation-Letter.pdf
+    matched_domain: iproov.com
+    matched_by: domain
+    identity: wikidata Q30290110 'iProov (United Kingdom)' P856 https://www.iproov.com/
+    identity_source: wikidata P856 (labelled provenance step; Kin 2026-10-15 decision 1)
+    certified_products:
+    - product: ISO/IEC 30107-3 PAD (face)
+      modality: face
+      partner_tier: Level 2
+      lapsed: false
+      latest_letter: '2020-10-01'
+      products_tested:
+      - Liveness Asurance
+      - iProov SDK
+    signal_note: certified_products = ONE entry per PAD product type (modality), highest level confirmed in partner_tier;
+      letters and versions are never counted. iBeta letters carry no expiry, so lapsed is false and the latest letter
+      date is recorded
+    detected_by: sweep-biometrics-testing.py
+    detected: '2026-10-20'
+  status: not-a-workflow
+  arazzo: null
+- slug: iproov-fido-alliance-identity-verification-certification
+  label: FIDO Alliance (Identity Verification certification)
+  partner_name: FIDO Alliance (Identity Verification certification)
+  category: biometric conformance (IDV)
+  type: register
+  channel: standard-directory
+  evidence: https://fidoalliance.org/certification/identity-verification/face-verification/fido-certified-products/
+  source: edge
+  relationship: standard-participant
+  contract_reference:
+    register: FIDO Alliance certified Identity Verification products (Face Verification, DocAuth)
+    standard: FIDO Identity Verification (Face Verification / DocAuth)
+    spec_file: null
+    role: fido-idv-certified
+    registered_name: iProov Ltd.
+    register_id: https://fidoalliance.org/certification/identity-verification/face-verification/fido-certified-products/
+    matched_domain: iproov.com
+    matched_by: domain
+    identity: wikidata Q30290110 'iProov (United Kingdom)' P856 https://www.iproov.com/
+    identity_source: wikidata P856 (labelled provenance step; Kin 2026-10-15 decision 1)
+    certified_products:
+    - product: FIDO IDV Face Verification
+      component: Face Verification
+      lapsed: false
+      expires: '2028-01-24'
+      products:
+      - iProov Dynamic Liveness
+      partner_tier: Level 1
+    signal_note: certified_products = ONE entry per FIDO IDV component; level in partner_tier; lapsed when every
+      certificate for the component has expired
+    detected_by: sweep-biometrics-testing.py
+    detected: '2026-10-20'
+  status: not-a-workflow
+  arazzo: null
