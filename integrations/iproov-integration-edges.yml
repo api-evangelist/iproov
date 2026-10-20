@@ -8,8 +8,10 @@ source:
 checked:
 - https://api.nuget.org/v3
 - https://azuremarketplace.microsoft.com/
+- https://cloudsecurityalliance.org/star/registry
 - https://composio.dev/toolkits/iproov
 - https://crates.io/api/v1
+- https://eucoc.cloud/en/public-register/list-of-adherent-services
 - https://govramp.org/program-participants
 - https://kantarainitiative.org/trust-status-list/
 - https://make.com/en/integrations/iproov
@@ -390,6 +392,40 @@ edges:
   listing_count: 3
   detected: '2026-10-20'
   detected_by: mirror-platform-listings.py
+- partner_name: Cloud Security Alliance STAR Registry
+  partner: null
+  partner_match: register
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://cloudsecurityalliance.org/star/registry/iproov-limited/services/biometric-authentication-services
+  category: Cloud security assurance
+  contract_reference:
+    register: CSA STAR Registry (cloudsecurityalliance.org/star/registry)
+    spec_file: null
+    standard: CSA STAR
+    role: star-level-2
+    registered_name: iProov Limited
+    registry_id: iproov-limited
+    service_url: https://www.iproov.com/
+    matched_domain: iproov.com
+    matched_by: domain
+    identity_source: the service URL the organisation filed on its STAR listing (no lookup)
+    levels:
+    - STAR Level 1
+    - STAR Level 2
+    certified_products:
+    - product: STAR Certification
+      lapsed: false
+      latest: '2026-04-20'
+    signal_note: STAR Level 1 (CAIQ self-assessment) = participation; certified_products = one entry per STAR Level
+      2 / STAR for AI Level 2 assessment TYPE (third-party certification, attestation, C-STAR, ValidAIted); lapsed
+      = every instance marked (Deprecated) by the registry; service counts never recorded
+    detected_by: sweep-compliance-assurance.py
+    detected: '2026-10-20'
+  detected_by: sweep-compliance-assurance.py
+  first_seen: '2026-10-20'
 templates: []
 note: iProov lists 35+ partners on their partners page. No marketplace integrations found on Zapier, Make.com, Workato,
   or n8n.io.
