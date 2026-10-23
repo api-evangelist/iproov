@@ -46,6 +46,9 @@ checked:
 - https://play.google.com/sdks
 - https://search.maven.org/solrsearch/select
 - google-play/integrations/google-play-integration-edges.yml
+- https://hex.pm/api
+- https://packagist.org/packages
+- https://pub.dev/api
 summary: null
 marketplace_apps: []
 edges:
@@ -580,6 +583,36 @@ edges:
   category: mobile SDK (user-authentication)
   publisher_verified:
   - Registered in Google Play SDK Console
+- partner_name: pub.dev
+  partner: pub-dev
+  partner_match: register
+  type: register
+  direction: provider-built
+  category: official SDK (Dart/Flutter)
+  evidence: https://pub.dev/packages/iproov_flutter
+  channel: package-registry
+  relationship: distribution-channel
+  contract_reference:
+    register: pub.dev (public registry JSON)
+    spec_file: null
+    language: Dart/Flutter
+    packages:
+    - name: iproov_flutter
+      version: 6.1.0
+      released: '2025-12-03'
+      released_field: published
+      lapsed: false
+      page: https://pub.dev/packages/iproov_flutter
+      repo_leg: not required (verified publisher)
+      publisher_leg: verified-publisher:iproov.com
+      matched_by: domain
+    current: true
+    signal_note: 'an official package on the registry: distribution, not an integration; lapsed = no release in
+      24 months'
+    detected_by: sweep-php-dart-elixir-package-registries.py
+    detected: '2026-10-22'
+  detected_by: sweep-php-dart-elixir-package-registries.py
+  first_seen: '2026-10-22'
 templates: []
 note: iProov lists 35+ partners on their partners page. No marketplace integrations found on Zapier, Make.com, Workato,
   or n8n.io.
